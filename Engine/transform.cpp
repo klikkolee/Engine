@@ -2,24 +2,24 @@
 #include "quaternion.hpp"
 #include "vector3.hpp"
 #include "matrix4.hpp"
-void transform::rotate(quaternion rotation)
+void Transform::Rotate(Quaternion rotation)
 {
 	this->rotation=rotation*this->rotation;
 }
-mat4 transform::worldToLocalMatrix()
+Matrix4 Transform::WorldToLocalMatrix()
 {
 	if (parent == NULL)
-		return mat4::translationMatrix(position)*mat4(rotation)*mat4::scaleMatrix(scale);
+		return Matrix4::translationMatrix(position)*Matrix4(rotation)*Matrix4::scaleMatrix(scale);
 	else
-		return parent->worldToLocalMatrix()*mat4::translationMatrix(position)*mat4(rotation)*mat4::scaleMatrix(scale);
+		return parent->WorldToLocalMatrix()*Matrix4::translationMatrix(position)*Matrix4(rotation)*Matrix4::scaleMatrix(scale);
 }
-mat4 transform::localToWorldMatrix()
+Matrix4 Transform::LocalToWorldMatrix()
 {
-	return worldToLocalMatrix().inverse();
+	return WorldToLocalMatrix().Inverse();
 }
-void transform::setParent(transform& parent)
+void Transform::SetParent(Transform& parent)
 {
 	parent.children.push_back(this);
-	transform* p=&parent;
+	Transform* p=&parent;
 	this->parent=&parent;
 }

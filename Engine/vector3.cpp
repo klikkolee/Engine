@@ -1,35 +1,35 @@
 #include "vector3.hpp"
 #include "vector4.hpp"
 #include <math.h>
-vector3::vector3()
+Vector3::Vector3()
 {
 	x,y,z=0;
 }
-vector3::vector3(double x,double y,double z)
+Vector3::Vector3(double x,double y,double z)
 {
 	this->x=x;
 	this->y=y;
 	this->z=z;
 }
-vector3::vector3(const vector4& other)
+Vector3::Vector3(const Vector4& other)
 {
 	x=other.x;
 	y=other.y;
 	z=other.z;
 }
 
-double vector3::squaredMagnitude()
+double Vector3::SquaredMagnitude()
 {
 	return x*x+y*y+z*z;
 }
 
-double vector3::magnitude()
+double Vector3::Magnitude()
 {
-	return sqrt(squaredMagnitude());
+	return sqrt(SquaredMagnitude());
 }
 
-vector3 vector3::unit()
+Vector3 Vector3::Unit()
 {
-	return vector3(*this)/=this->magnitude();
+	return Vector3(*this)/=this->Magnitude();
 }
 

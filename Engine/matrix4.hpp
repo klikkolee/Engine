@@ -5,54 +5,54 @@
 #include <math.h>
 #include <string>
 
-class vector3;
-class vector4;
-class quaternion;
-class mat4 final
+class Vector3;
+class Vector4;
+class Quaternion;
+class Matrix4 final
 {
 	double members[4][4];
-	mat4(double (&members)[4][4]);
+	Matrix4(double (&members)[4][4]);
 public:
 	static const std::string UNINVERTIBLE_EXCEPTION_TEXT;
-	typedef enum RotationOrder
+	enum RotationOrder
 	{
 		xyz,xzy,yxz,yzx,zxy,zyx
 	};
-	mat4();
-	mat4(std::initializer_list<std::initializer_list<double>> members);
-	explicit mat4(const quaternion& rotation);
+	Matrix4();
+	Matrix4(std::initializer_list<std::initializer_list<double>> members);
+	explicit Matrix4(const Quaternion& rotation);
 
-	static mat4 Zero() { return mat4({ { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }); }
-	static mat4 Identity() { return mat4({ { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } }); }
+	static Matrix4 Zero() { return Matrix4({ { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } }); }
+	static Matrix4 Identity() { return Matrix4({ { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } }); }
 	//zyx rotation order
-	static mat4 eulerRotationRadian(double x, double y, double z);
+	static Matrix4 eulerRotationRadian(double x, double y, double z);
 	//zyx rotation order
-	static mat4 eulerRotationDegree(double x, double y, double z) { return eulerRotationRadian(x*M_PI/180, y*M_PI/180, z*M_PI/180); }
-	inline static mat4 translationMatrix(double x,double y,double z) { return mat4({ { 1,0,0,x },{ 0,1,0,y },{ 0,0,1,z },{ 0,0,0,1 } }); }
-	static mat4 translationMatrix(vector3 translation);
-	static mat4 scaleMatrix(double x,double y,double z) { return mat4({ { x,0,0,0 },{ 0,y,0,0 },{ 0,0,z,0 },{ 0,0,0,1 } }); }
-	static mat4 scaleMatrix(vector3 scale);
+	static Matrix4 eulerRotationDegree(double x, double y, double z) { return eulerRotationRadian(x*M_PI/180, y*M_PI/180, z*M_PI/180); }
+	inline static Matrix4 translationMatrix(double x,double y,double z) { return Matrix4({ { 1,0,0,x },{ 0,1,0,y },{ 0,0,1,z },{ 0,0,0,1 } }); }
+	static Matrix4 translationMatrix(Vector3 translation);
+	static Matrix4 scaleMatrix(double x,double y,double z) { return Matrix4({ { x,0,0,0 },{ 0,y,0,0 },{ 0,0,z,0 },{ 0,0,0,1 } }); }
+	static Matrix4 scaleMatrix(Vector3 scale);
 
-	double determinant();
-	mat4 inverse() const;
-	mat4 transpose() const;
+	double Determinant();
+	Matrix4 Inverse() const;
+	Matrix4 Transpose() const;
 
-	std::string debugString();
+	std::string DebugString();
 
-	inline const mat4 operator*(const mat4& other) const { return mat4(*this) *= other; }
-	inline const mat4 operator*(double scalar) const { return mat4(*this) *= scalar; }
-	inline const mat4 operator/(double scalar) const { return mat4(*this) /= scalar; }
-	inline const mat4 operator+(const mat4& other) const { return mat4(*this) += other; }
-	inline const mat4 operator-(const mat4& other) const { return mat4(*this) -= other; }
+	inline const Matrix4 operator*(const Matrix4& other) const { return Matrix4(*this) *= other; }
+	inline const Matrix4 operator*(double scalar) const { return Matrix4(*this) *= scalar; }
+	inline const Matrix4 operator/(double scalar) const { return Matrix4(*this) /= scalar; }
+	inline const Matrix4 operator+(const Matrix4& other) const { return Matrix4(*this) += other; }
+	inline const Matrix4 operator-(const Matrix4& other) const { return Matrix4(*this) -= other; }
 
-	mat4& operator*=(const mat4& other);
-	mat4& operator*=(double scalar);
-	mat4& operator/=(double scalar);
-	mat4& operator+=(const mat4& other);
-	mat4& operator-=(const mat4& other);
+	Matrix4& operator*=(const Matrix4& other);
+	Matrix4& operator*=(double scalar);
+	Matrix4& operator/=(double scalar);
+	Matrix4& operator+=(const Matrix4& other);
+	Matrix4& operator-=(const Matrix4& other);
 
-	const vector3 operator*(const vector3& rhs);
-	const vector4 operator*(const vector4& rhs);
+	const Vector3 operator*(const Vector3& rhs);
+	const Vector4 operator*(const Vector4& rhs);
 
 	double& operator()(int row,int column);
 };

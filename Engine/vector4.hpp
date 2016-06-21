@@ -1,23 +1,23 @@
 #ifndef VECTOR4_H
 #define VECTOR4_H
-class vector3;
-class vector4 final
+class Vector3;
+class Vector4 final
 {
 public:
 	double x,y,z,w;
-	vector4();
-	vector4(const vector4& other)=default;
-	vector4(double x,double y,double z,double w);
-	vector4(double x,double y,double z) : vector4(x,y,z,1) {}
-	vector4(const vector3& other,int w = 1);
+	Vector4();
+	Vector4(const Vector4& other)=default;
+	Vector4(double x,double y,double z,double w);
+	Vector4(double x,double y,double z) : Vector4(x,y,z,1) {}
+	Vector4(const Vector3& other,int w = 1);
 
-	inline const vector4 operator+(const vector4& rhs) const { return vector4(*this)+=rhs; }
-	inline const vector4 operator-(const vector4& rhs) const { return vector4(*this)-=rhs; }
-	vector4& operator+=(const vector4& rhs);
-	vector4& operator-=(const vector4& rhs);
+	inline const Vector4 operator+(const Vector4& rhs) const { return Vector4(*this)+=rhs; }
+	inline const Vector4 operator-(const Vector4& rhs) const { return Vector4(*this)-=rhs; }
+	Vector4& operator+=(const Vector4& rhs);
+	Vector4& operator-=(const Vector4& rhs);
 
-	static double dot(const vector4& lhs,const vector4& rhs);
+	static double Dot(const Vector4& lhs,const Vector4& rhs);
 
 	
 };
-#endif
+#endif //VECTOR$_H

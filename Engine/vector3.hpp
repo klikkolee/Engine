@@ -1,41 +1,41 @@
 #ifndef VECTOR3_H
 #define VECTOR3_H
-class vector4;
-class vector3 final
+class Vector4;
+class Vector3 final
 {
 public:
 	double x,y,z;
-	vector3();
-	vector3(const vector3& other)=default;
-	vector3(double x, double y, double z);
-	explicit vector3(const vector4& other);
+	Vector3();
+	Vector3(const Vector3& other)=default;
+	Vector3(double x, double y, double z);
+	explicit Vector3(const Vector4& other);
 
-	inline const vector3 operator+(const vector3& rhs) const { return vector3(*this)+=rhs; }
-	inline const vector3 operator-(const vector3& rhs) const { return vector3(*this)-=rhs; }
-	inline const vector3 operator*(double rhs) const { return vector3(*this)*=rhs; }
-	inline const vector3 operator/(double rhs) const { return vector3(*this)/=rhs; }
-	inline vector3& vector3::operator+=(const vector3& rhs)
+	inline const Vector3 operator+(const Vector3& rhs) const { return Vector3(*this)+=rhs; }
+	inline const Vector3 operator-(const Vector3& rhs) const { return Vector3(*this)-=rhs; }
+	inline const Vector3 operator*(double rhs) const { return Vector3(*this)*=rhs; }
+	inline const Vector3 operator/(double rhs) const { return Vector3(*this)/=rhs; }
+	inline Vector3& Vector3::operator+=(const Vector3& rhs)
 	{
 		x+=rhs.x;
 		y+=rhs.y;
 		z+=rhs.z;
 		return *this;
 	}
-	inline vector3& vector3::operator-=(const vector3& rhs)
+	inline Vector3& Vector3::operator-=(const Vector3& rhs)
 	{
 		x-=rhs.x;
 		y-=rhs.y;
 		z-=rhs.z;
 		return *this;
 	}
-	inline vector3& operator*=(double rhs)
+	inline Vector3& operator*=(double rhs)
 	{
 		x*=rhs;
 		y*=rhs;
 		z*=rhs;
 		return *this;
 	}
-	inline vector3& operator/=(double rhs)
+	inline Vector3& operator/=(double rhs)
 	{
 		x/=rhs;
 		y/=rhs;
@@ -44,18 +44,18 @@ public:
 	}
 
 	//normalized copy
-	vector3 unit();
-	double magnitude();
-	double squaredMagnitude();
+	Vector3 Unit();
+	double Magnitude();
+	double SquaredMagnitude();
 
-	static inline vector3 vector3::cross(const vector3& lhs,const vector3& rhs) { return vector3(lhs.y*rhs.z-lhs.z*rhs.y,lhs.z*rhs.x-lhs.x*rhs.z,lhs.x*rhs.y-lhs.y*rhs.x); }
-	static inline double vector3::dot(const vector3& lhs,const vector3& rhs) { return lhs.x*rhs.x+lhs.y*rhs.y+lhs.z*rhs.z; }
+	static inline Vector3 Cross(const Vector3& lhs,const Vector3& rhs) { return Vector3(lhs.y*rhs.z-lhs.z*rhs.y,lhs.z*rhs.x-lhs.x*rhs.z,lhs.x*rhs.y-lhs.y*rhs.x); }
+	static inline double Dot(const Vector3& lhs,const Vector3& rhs) { return lhs.x*rhs.x+lhs.y*rhs.y+lhs.z*rhs.z; }
 	//permanently normalizes vector
-	static inline vector3& normalize(vector3& vector) 
+	static inline Vector3& Normalize(Vector3& vector) 
 	{
-		vector/=vector.magnitude();
+		vector/=vector.Magnitude();
 		return vector;
 	}
 
 };
-#endif
+#endif //!VECTOR3_H

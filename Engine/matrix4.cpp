@@ -5,8 +5,8 @@
 #include <stdio.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
-const std::string mat4::UNINVERTIBLE_EXCEPTION_TEXT="matrix is not invertible";
-mat4::mat4()
+const std::string Matrix4::UNINVERTIBLE_EXCEPTION_TEXT="matrix is not invertible";
+Matrix4::Matrix4()
 {
 	for (int i=0; i<4; i++)
 	{
@@ -14,7 +14,7 @@ mat4::mat4()
 			members[i][j]=0;
 	}
 }
-mat4::mat4(double(&members)[4][4])
+Matrix4::Matrix4(double(&members)[4][4])
 {
 	for (int i=0; i<4; i++)
 	{
@@ -22,7 +22,7 @@ mat4::mat4(double(&members)[4][4])
 			this->members[i][j]=members[i][j];
 	}
 }
-mat4::mat4(std::initializer_list<std::initializer_list<double>> members)
+Matrix4::Matrix4(std::initializer_list<std::initializer_list<double>> members)
 {
 	for (int i=0; i<4; i++)
 	{
@@ -30,7 +30,7 @@ mat4::mat4(std::initializer_list<std::initializer_list<double>> members)
 			this->members[i][j]=members.begin()[i].begin()[j];
 	}
 }
-mat4::mat4(const quaternion& rotation)
+Matrix4::Matrix4(const Quaternion& rotation)
 {
 	members[0][0]=1-2*rotation.j*rotation.j-2*rotation.k*rotation.k;
 	members[0][1]=2*(rotation.i*rotation.j-rotation.k*rotation.w);
@@ -52,7 +52,7 @@ mat4::mat4(const quaternion& rotation)
 
 //uses elementary row operations to create
 //an upper triangular matrix with identical determinant
-double mat4::determinant()
+double Matrix4::Determinant()
 {
 	//TODO: remove assignments which algorithm will never branch on
 	//TODO: simplify
@@ -188,7 +188,7 @@ double mat4::determinant()
 //calculates inverse by appling
 //elementary row operations to
 //an augmented matrix
-mat4 mat4::inverse() const
+Matrix4 Matrix4::Inverse() const
 {
 	//TODO: remove assignments which algorithm will never branch on
 	//TODO: simplify
@@ -342,12 +342,12 @@ mat4 mat4::inverse() const
 		}
 	}
 
-	return mat4(result);
+	return Matrix4(result);
 }
 
-mat4 mat4::transpose() const
+Matrix4 Matrix4::Transpose() const
 {
-	mat4 result=mat4();
+	Matrix4 result=Matrix4();
 	for (int i=0; i < 4; i++)
 	{
 		for (int j=0; j < 4; j++)
@@ -358,7 +358,7 @@ mat4 mat4::transpose() const
 	return result;
 }
 
-std::string mat4::debugString()
+std::string Matrix4::DebugString()
 {
 	std::string result;
 	for (int i=0; i<4; i++)
@@ -375,16 +375,16 @@ std::string mat4::debugString()
 	return result;
 }
 
-double& mat4::operator()(int row, int column)
+double& Matrix4::operator()(int row, int column)
 {
 	return members[row-1][column-1];
 }
 
-mat4& mat4::operator*=(const mat4& rhs)
+Matrix4& Matrix4::operator*=(const Matrix4& rhs)
 {
-	mat4 lhs=mat4(*this);
+	Matrix4 lhs=Matrix4(*this);
 	if (&rhs==this)
-		*this*=mat4(rhs);
+		*this*=Matrix4(rhs);
 	else
 	{
 		for (int i=0; i<4; i++)
@@ -397,7 +397,7 @@ mat4& mat4::operator*=(const mat4& rhs)
 	}
 	return *this;
 }
-mat4& mat4::operator+=(const mat4& rhs)
+Matrix4& Matrix4::operator+=(const Matrix4& rhs)
 {
 	for (int i=0; i < 4; i++)
 	{
@@ -408,7 +408,7 @@ mat4& mat4::operator+=(const mat4& rhs)
 	}
 	return *this;
 }
-mat4& mat4::operator-=(const mat4& rhs)
+Matrix4& Matrix4::operator-=(const Matrix4& rhs)
 {
 	for (int i=0; i < 4; i++)
 	{
@@ -420,7 +420,7 @@ mat4& mat4::operator-=(const mat4& rhs)
 	return *this;
 }
 
-mat4& mat4::operator*=(double scalar)
+Matrix4& Matrix4::operator*=(double scalar)
 {
 	for (int i=0; i<4; i++)
 	{
@@ -431,7 +431,7 @@ mat4& mat4::operator*=(double scalar)
 	}
 	return *this;
 }
-mat4& mat4::operator/=(double scalar)
+Matrix4& Matrix4::operator/=(double scalar)
 {
 	for (int i=0; i<4; i++)
 	{
@@ -443,28 +443,28 @@ mat4& mat4::operator/=(double scalar)
 	return *this;
 }
 
-const vector3 mat4::operator*(const vector3& rhs)
+const Vector3 Matrix4::operator*(const Vector3& rhs)
 {
-	return vector3(members[0][0]*rhs.x+members[0][1]*rhs.y+members[0][2]*rhs.z+members[0][3],members[1][0]*rhs.x+members[1][1]*rhs.y+members[1][2]*rhs.z+members[1][3],members[2][0]*rhs.x+members[2][1]*rhs.y+members[2][2]*rhs.z+members[2][3]);
+	return Vector3(members[0][0]*rhs.x+members[0][1]*rhs.y+members[0][2]*rhs.z+members[0][3],members[1][0]*rhs.x+members[1][1]*rhs.y+members[1][2]*rhs.z+members[1][3],members[2][0]*rhs.x+members[2][1]*rhs.y+members[2][2]*rhs.z+members[2][3]);
 }
-const vector4 mat4::operator*(const vector4& rhs)
+const Vector4 Matrix4::operator*(const Vector4& rhs)
 {
-	return vector4(members[0][0]*rhs.x+members[0][1]*rhs.y+members[0][2]*rhs.z+members[0][3]*rhs.w,members[1][0]*rhs.x+members[1][1]*rhs.y+members[1][2]*rhs.z+members[1][3]*rhs.w,members[2][0]*rhs.x+members[2][1]*rhs.y+members[2][2]*rhs.z+members[2][3]*rhs.w,members[3][0]*rhs.x+members[3][1]*rhs.y+members[3][2]*rhs.z+members[3][3]*rhs.w);
+	return Vector4(members[0][0]*rhs.x+members[0][1]*rhs.y+members[0][2]*rhs.z+members[0][3]*rhs.w,members[1][0]*rhs.x+members[1][1]*rhs.y+members[1][2]*rhs.z+members[1][3]*rhs.w,members[2][0]*rhs.x+members[2][1]*rhs.y+members[2][2]*rhs.z+members[2][3]*rhs.w,members[3][0]*rhs.x+members[3][1]*rhs.y+members[3][2]*rhs.z+members[3][3]*rhs.w);
 }
 
-mat4 mat4::eulerRotationRadian(double x, double y, double z)
+Matrix4 Matrix4::eulerRotationRadian(double x, double y, double z)
 {
-	mat4 xRot=mat4({ { 1, 0, 0, 0 }, { 0, cos(x), -sin(x), 0 }, { 0, sin(x), cos(x), 0 }, { 0, 0, 0, 1 } });
-	mat4 yRot=mat4({ { cos(y), 0, sin(y), 0 }, { 0, 1, 0, 0 }, { -sin(y), 0, cos(y), 0 }, { 0, 0, 0, 1 } });
-	mat4 zRot=mat4({ { cos(x), -sin(x), 0, 0 }, { sin(x), cos(x), 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } });
+	Matrix4 xRot=Matrix4({ { 1, 0, 0, 0 }, { 0, cos(x), -sin(x), 0 }, { 0, sin(x), cos(x), 0 }, { 0, 0, 0, 1 } });
+	Matrix4 yRot=Matrix4({ { cos(y), 0, sin(y), 0 }, { 0, 1, 0, 0 }, { -sin(y), 0, cos(y), 0 }, { 0, 0, 0, 1 } });
+	Matrix4 zRot=Matrix4({ { cos(x), -sin(x), 0, 0 }, { sin(x), cos(x), 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } });
 	return xRot*yRot*zRot;
 }
 
-mat4 mat4::translationMatrix(vector3 translation)
+Matrix4 Matrix4::translationMatrix(Vector3 translation)
 {
 	return translationMatrix(translation.x,translation.y,translation.z);
 }
-mat4 mat4::scaleMatrix(vector3 scale)
+Matrix4 Matrix4::scaleMatrix(Vector3 scale)
 {
 	return scaleMatrix(scale.x,scale.y,scale.z);
 }

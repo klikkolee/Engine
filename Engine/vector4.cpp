@@ -1,17 +1,17 @@
 #include "vector4.hpp"
 #include "vector3.hpp"
-vector4::vector4()
+Vector4::Vector4()
 {
 	x,y,z,w=0;
 }
-vector4::vector4(double x,double y,double z, double w)
+Vector4::Vector4(double x,double y,double z, double w)
 {
 	this->x=x;
 	this->y=y;
 	this->z=z;
 	this->w=w;
 }
-vector4::vector4(const vector3& other,int w)
+Vector4::Vector4(const Vector3& other,int w)
 {
 	x=other.x;
 	y=other.y;
@@ -19,7 +19,7 @@ vector4::vector4(const vector3& other,int w)
 	this->w=w;
 }
 
-inline vector4& vector4::operator+=(const vector4& rhs)
+inline Vector4& Vector4::operator+=(const Vector4& rhs)
 {
 	x+=rhs.x;
 	y+=rhs.y;
@@ -27,14 +27,14 @@ inline vector4& vector4::operator+=(const vector4& rhs)
 	w+=rhs.w;
 	return *this;
 }
-inline vector4& vector4::operator-=(const vector4& rhs)
+inline Vector4& Vector4::operator-=(const Vector4& rhs)
 {
 	x-=rhs.x;
 	y-=rhs.y;
 	z-=rhs.z;
 	return *this;
 }
-inline double vector4::dot(const vector4& lhs,const vector4& rhs)
+inline double Vector4::Dot(const Vector4& lhs,const Vector4& rhs)
 {
 	return lhs.x*rhs.x+lhs.y*rhs.y+lhs.z*rhs.z+lhs.w*rhs.w;
 }

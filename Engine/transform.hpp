@@ -4,31 +4,31 @@
 #include "vector3.hpp"
 #include "matrix4.hpp"
 #include <vector>
-class transform final
+class Transform final
 {
-	transform* parent;
-	std::vector<transform*> children;
-	quaternion rotation;
-	vector3 position;
-	vector3 scale;
+	Transform* parent;
+	std::vector<Transform*> children;
+	Quaternion rotation;
+	Vector3 position;
+	Vector3 scale;
 public:
-	transform() : rotation(),position(),scale() {}
-	transform(quaternion rotation,vector3 position,vector3 scale) : rotation(rotation),position(position),scale(scale) {}
+	Transform() : rotation(),position(),scale() {}
+	Transform(Quaternion rotation,Vector3 position,Vector3 scale) : rotation(rotation),position(position),scale(scale) {}
 
-	mat4 worldToLocalMatrix();
-	mat4 localToWorldMatrix();
+	Matrix4 WorldToLocalMatrix();
+	Matrix4 LocalToWorldMatrix();
 
-	void rotate(quaternion rotation);
-	void rotate(double x,double y,double z) { rotate(quaternion::eulerRotation(x,y,z)); }
-	void translate(vector3 translation) { position+=translation; }
-	void translate(double x,double y,double z) { translate(vector3(x,y,z)); }
-	void setParent(transform& parent);
-	vector3& getPosition() { return position; }
-	vector3& getScale() { return scale; }
-	quaternion& getRotation() { return rotation; }
-	transform& getParent() { return *parent; }
-	vector3 forward() { return localToWorldMatrix()*vector3(1,0,0); }
-	vector3 right() { return localToWorldMatrix()*vector3(0,1,0); }
-	vector3 up() { return localToWorldMatrix()*vector3(0,0,1); }
+	void Rotate(Quaternion rotation);
+	void Rotate(double x,double y,double z) { Rotate(Quaternion::EulerRotation(x,y,z)); }
+	void Translate(Vector3 translation) { position+=translation; }
+	void Translate(double x,double y,double z) { Translate(Vector3(x,y,z)); }
+	void SetParent(Transform& parent);
+	Vector3& GetPosition() { return position; }
+	Vector3& GetScale() { return scale; }
+	Quaternion& GetRotation() { return rotation; }
+	Transform& GetParent() { return *parent; }
+	Vector3 Forward() { return LocalToWorldMatrix()*Vector3(1,0,0); }
+	Vector3 Right() { return LocalToWorldMatrix()*Vector3(0,1,0); }
+	Vector3 Up() { return LocalToWorldMatrix()*Vector3(0,0,1); }
 };
-#endif
+#endif //!TRANSFORM_H
