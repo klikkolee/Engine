@@ -1,4 +1,5 @@
 #include "choreographer.hpp"
+#include "SDL.h" //Must be included due to sdl's redefinition of main
 
 int main(int argc, char* argv[])
 {

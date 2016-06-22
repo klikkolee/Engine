@@ -2,11 +2,15 @@
 #include "window.hpp"
 #include "SDL.h"
 #include "GL\glew.h"
-
+#include <vector>
+#include <unordered_map>
 namespace Choreographer
 {
+	bool isInitialized = false;
 	bool isRunning = false;
+	bool stopOnMainWindowClose = true;
 	Window* mainWindow;
+	std::unordered_map<int, Window*> windowMap;
 	void MainLoop()
 	{
 		while (isRunning)
@@ -14,6 +18,19 @@ namespace Choreographer
 			SDL_Event event;
 			while (SDL_PollEvent(&event))
 			{
+				if (event.type==SDL_WINDOWEVENT)
+				{
+					if (event.window.event==SDL_WINDOWEVENT_CLOSE)
+					{
+						delete windowMap.at(event.window.windowID);
+						windowMap.erase(event.window.windowID);
+						if (event.window.windowID==mainWindow->GetID()&&
+							stopOnMainWindowClose)
+						{
+							Stop();
+						}
+					}
+				}
 				if (event.type==SDL_QUIT)
 				{
 					Stop();
@@ -21,13 +38,12 @@ namespace Choreographer
 				//TODO: dispatch events to relevant structures once they exist
 			}
 		}
-
 	}
 }
 
 void Choreographer::Start()
 {
-	if (!isRunning)
+	if (!isInitialized)
 	{
 		SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -50,15 +66,39 @@ void Choreographer::Start()
 		{
 			fprintf(stderr, "Error: '%s'\n", glewGetErrorString(glewError));
 		}
-
 		mainWindow = new Window(800, 600, "Title");
+
+		windowMap.emplace(mainWindow->GetID(), mainWindow);
+		isInitialized = true;
+	}
+	if (!isRunning)
+	{
 		isRunning = true;
 		MainLoop();
 	}
-	isRunning = true;
 }
 
 void Choreographer::Stop()
 {
 	isRunning = false;
+	SDL_Quit();
+}
+
+void Choreographer::SetStopOnMainWindowClose(bool value)
+{
+	stopOnMainWindowClose = value;
+}
+
+void Choreographer::DeInitialize()
+{
+	isInitialized = false;
+	Stop();
+	//iterator to pairs where second is pointer to window
+	std::unordered_map<int, Window*>::iterator windowMapIterator;
+	for (windowMapIterator = windowMap.begin(); windowMapIterator!=windowMap.end(); ++windowMapIterator)
+	{
+		delete (*windowMapIterator).second;
+	}
+	windowMap.clear();
+	mainWindow = NULL; //memory freed in for loop
 }
