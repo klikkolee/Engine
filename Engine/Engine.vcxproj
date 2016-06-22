@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="choreographer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4.cpp" />
     <ClCompile Include="quaternion.cpp" />
@@ -80,13 +81,14 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="choreographer.hpp" />
     <ClInclude Include="matrix4.hpp" />
     <ClInclude Include="quaternion.hpp" />
     <ClInclude Include="transform.hpp" />
     <ClInclude Include="vector2.h" />
     <ClInclude Include="vector3.hpp" />
     <ClInclude Include="vector4.hpp" />
-    <ClInclude Include="window.h" />
+    <ClInclude Include="window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

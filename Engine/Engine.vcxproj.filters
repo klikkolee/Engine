@@ -42,6 +42,9 @@
     <ClCompile Include="vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="choreographer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vector3.hpp">
@@ -59,10 +62,13 @@
     <ClInclude Include="transform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="window.h">
+    <ClInclude Include="vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vector2.h">
+    <ClInclude Include="choreographer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
