@@ -51,7 +51,7 @@
       </EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
-      <AdditionalDependencies>legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,10 +82,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="choreographer.hpp" />
+    <ClInclude Include="i_render_target.hpp" />
     <ClInclude Include="matrix4.hpp" />
     <ClInclude Include="quaternion.hpp" />
     <ClInclude Include="transform.hpp" />
-    <ClInclude Include="vector2.h" />
+    <ClInclude Include="vector2.hpp" />
     <ClInclude Include="vector3.hpp" />
     <ClInclude Include="vector4.hpp" />
     <ClInclude Include="window.hpp" />

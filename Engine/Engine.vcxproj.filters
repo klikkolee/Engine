@@ -62,13 +62,16 @@
     <ClInclude Include="transform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="choreographer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="window.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="i_render_target.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

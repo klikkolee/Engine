@@ -1,5 +1,6 @@
 #include "window.hpp"
 #include "SDL.h"
+#include "GL\glew.h"
 
 Window::~Window()
 {
@@ -10,6 +11,13 @@ Window::~Window()
 void Window::SwapBuffers()
 {
 	SDL_GL_SwapWindow(sdlWindow);
+}
+
+void Window::BindAsRenderTarget()
+{
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, 1, 1);
 }
 
 Window::Window(int width, int height, const std::string & title)
