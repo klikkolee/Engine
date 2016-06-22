@@ -50,7 +50,7 @@
       <EntryPointSymbol>
       </EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
-      <IgnoreSpecificDefaultLibraries>library</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>library.lib;library</IgnoreSpecificDefaultLibraries>
       <AdditionalDependencies>legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
