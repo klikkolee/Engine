@@ -1,5 +1,5 @@
-#ifndef VECTOR2_H
-#define VECTOR2_H
+#ifndef ENGINE_VECTOR2_H
+#define ENGINE_VECTOR2_H
 class Vector2 final
 {
 	double x;
@@ -17,5 +17,5 @@ public:
 		return *this;
 	}
 };
-#endif //!VECTOR2_H
+#endif //!ENGINE_VECTOR2_H
 

@@ -1,5 +1,5 @@
-#ifndef CHOREOGRAPHER_H
-#define CHOREOGRAPHER_H
+#ifndef ENGINE_CHOREOGRAPHER_H
+#define ENGINE_CHOREOGRAPHER_H
 
 //namespace which controls the interaction of Engine components
 //with each other and with the game code
@@ -14,4 +14,4 @@ namespace Choreographer
 	//redone on next start call
 	void DeInitialize();
 }
-#endif // !CHOREOGRAPHER_H
+#endif // !ENGINE_CHOREOGRAPHER_H

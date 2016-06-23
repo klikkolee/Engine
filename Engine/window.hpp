@@ -1,8 +1,8 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef ENGINE_WINDOW_H
+#define ENGINE_WINDOW_H
 
 #include "vector2.hpp"
-#include "i_render_target.hpp"
+#include "render_target.hpp"
 #include <SDL.h>
 #include <string>
 
@@ -27,4 +27,4 @@ public:
 	inline void SetSize(int width, int height) { SDL_SetWindowSize(sdlWindow, width, height); }
 };
 
-#endif // !WINDOW_H
+#endif // !ENGINE_WINDOW_H

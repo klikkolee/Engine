@@ -1,5 +1,5 @@
-#ifndef VECTOR3_H
-#define VECTOR3_H
+#ifndef ENGINE_VECTOR3_H
+#define ENGINE_VECTOR3_H
 class Vector4;
 class Vector3 final
 {
@@ -58,4 +58,4 @@ public:
 	}
 
 };
-#endif //!VECTOR3_H
+#endif //!ENGINE_VECTOR3_H

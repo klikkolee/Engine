@@ -1,5 +1,5 @@
-#ifndef TRANSFORM_H
-#define TRANDFORM_H
+#ifndef ENGINE_TRANSFORM_H
+#define ENGINE_TRANSFORM_H
 #include "quaternion.hpp"
 #include "vector3.hpp"
 #include "matrix4.hpp"
@@ -31,4 +31,4 @@ public:
 	Vector3 Right() { return LocalToWorldMatrix()*Vector3(0,1,0); }
 	Vector3 Up() { return LocalToWorldMatrix()*Vector3(0,0,1); }
 };
-#endif //!TRANSFORM_H
+#endif //!ENGINE_TRANSFORM_H

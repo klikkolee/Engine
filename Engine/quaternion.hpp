@@ -1,5 +1,5 @@
-#ifndef QUATERNION_H
-#define QUATERNION_H
+#ifndef ENGINE_QUATERNION_H
+#define ENGINE_QUATERNION_H
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "vector3.hpp"
@@ -60,4 +60,4 @@ public:
 
 inline const Quaternion operator*(const Vector3& lhs, const Quaternion& rhs) { return Quaternion(lhs)*=rhs; }
 
-#endif //!QUATERNION_H
+#endif //!ENGINE_QUATERNION_H

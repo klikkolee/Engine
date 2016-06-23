@@ -1,5 +1,5 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef ENGINE_MATRIX_H
+#define ENGINE_MATRIX_H
 #define _USE_MATH_DEFINES
 #include <initializer_list>
 #include <math.h>
