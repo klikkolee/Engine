@@ -74,6 +74,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4.cpp" />
     <ClCompile Include="quaternion.cpp" />
+    <ClCompile Include="scene_manager.cpp" />
     <ClCompile Include="SDL_fix.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="vector2.cpp" />
@@ -83,9 +84,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="choreographer.hpp" />
+    <ClInclude Include="component.hpp" />
+    <ClInclude Include="game_object.hpp" />
     <ClInclude Include="i_render_target.hpp" />
     <ClInclude Include="matrix4.hpp" />
     <ClInclude Include="quaternion.hpp" />
+    <ClInclude Include="scene_manager.hpp" />
     <ClInclude Include="transform.hpp" />
     <ClInclude Include="vector2.hpp" />
     <ClInclude Include="vector3.hpp" />
