@@ -1,10 +1,7 @@
-#include "vector3.hpp"
-#include "vector4.hpp"
+#include "vector3.h"
+#include "vector4.h"
 #include <math.h>
-Vector3::Vector3()
-{
-	x,y,z=0;
-}
+Vector3::Vector3() : x(0), y(0), z(0) {}
 Vector3::Vector3(double x,double y,double z)
 {
 	this->x=x;

@@ -1,4 +1,4 @@
-#include "window.hpp"
+#include "window.h"
 #include "SDL.h"
 #include "GL\glew.h"
 
@@ -20,7 +20,7 @@ void Window::BindAsRenderTarget()
 	glViewport(0, 0, 1, 1);
 }
 
-Window::Window(int width, int height, const std::string & title)
+Window::Window(int width, int height, const std::string & title) : width(width), height(height)
 {
 	sdlWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
 								 SDL_WINDOWPOS_CENTERED, width, height,

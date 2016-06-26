@@ -1,35 +1,14 @@
-#include "matrix4.hpp"
-#include "vector3.hpp"
-#include "vector4.hpp"
-#include "quaternion.hpp"
+#include "matrix4.h"
+#include "vector3.h"
+#include "vector4.h"
+#include "quaternion.h"
 #include <stdio.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <span.h>
 const std::string Matrix4::UNINVERTIBLE_EXCEPTION_TEXT="matrix is not invertible";
-Matrix4::Matrix4()
-{
-	for (int i=0; i<4; i++)
-	{
-		for (int j=0; j<4; j++)
-			members[i][j]=0;
-	}
-}
-Matrix4::Matrix4(double(&members)[4][4])
-{
-	for (int i=0; i<4; i++)
-	{
-		for (int j=0; j<4; j++)
-			this->members[i][j]=members[i][j];
-	}
-}
-Matrix4::Matrix4(std::initializer_list<std::initializer_list<double>> members)
-{
-	for (int i=0; i<4; i++)
-	{
-		for (int j=0; j<4; j++)
-			this->members[i][j]=members.begin()[i].begin()[j];
-	}
-}
+Matrix4::Matrix4() : members({{ {{0,0,0,0}},{{0,0,0,0}},{{0,0,0,0}},{{0,0,0,0}} }}) {}
+Matrix4::Matrix4(std::array<std::array<double, 4>, 4> members) : members(members) {}
 Matrix4::Matrix4(const Quaternion& rotation)
 {
 	members[0][0]=1-2*rotation.j*rotation.j-2*rotation.k*rotation.k;
@@ -56,7 +35,7 @@ double Matrix4::Determinant()
 {
 	//TODO: remove assignments which algorithm will never branch on
 	//TODO: simplify
-	double utm[4][4];
+	std::array<std::array<double, 4>, 4> utm{};
 	for (int i=0; i<4; i++)
 	{
 		for (int j=0; j<4; j++)
@@ -64,9 +43,10 @@ double Matrix4::Determinant()
 			utm[i][j]=members[i][j];
 		}
 	}
-	double r1;
-	double r2;
-	double r3;
+	
+	double r1 = 1;
+	double r2 = 1;
+	double r3 = 1;
 	double sign=1;
 
 	if (!(utm[1][0]==0&&utm[2][0]==0&&utm[3][0]==0))
@@ -192,7 +172,7 @@ Matrix4 Matrix4::Inverse() const
 {
 	//TODO: remove assignments which algorithm will never branch on
 	//TODO: simplify
-	double augMat[4][8];
+	std::array<std::array<double, 4>, 8> augMat{};
 	for (int i=0; i<4; i++)
 	{
 		for (int j=0; j<4; j++)
@@ -201,11 +181,11 @@ Matrix4 Matrix4::Inverse() const
 			augMat[i][j+4]=i==j ? 1 : 0;
 		}
 	}
-	double r0;
-	double r1;
-	double r2;
-	double r3;
-	double scale;
+	double r0 = 1;
+	double r1 = 1;
+	double r2 = 1;
+	double r3 = 1;
+	double scale = 1;
 	if (augMat[0][0]==0 && augMat[1][0]==0 && augMat[2][0]==0 && augMat[3][0] == 0)
 		throw std::invalid_argument(UNINVERTIBLE_EXCEPTION_TEXT);
 	else if (augMat[0][0] == 0)
@@ -333,7 +313,7 @@ Matrix4 Matrix4::Inverse() const
 		augMat[2][i]-=r2*augMat[3][i];
 	}
 
-	double result[4][4];
+	std::array<std::array<double, 4>, 4> result{};
 	for (int i=0; i < 4; i++)
 	{
 		for (int j=0; j < 4; j++)
@@ -454,9 +434,9 @@ const Vector4 Matrix4::operator*(const Vector4& rhs)
 
 Matrix4 Matrix4::eulerRotationRadian(double x, double y, double z)
 {
-	Matrix4 xRot=Matrix4({ { 1, 0, 0, 0 }, { 0, cos(x), -sin(x), 0 }, { 0, sin(x), cos(x), 0 }, { 0, 0, 0, 1 } });
-	Matrix4 yRot=Matrix4({ { cos(y), 0, sin(y), 0 }, { 0, 1, 0, 0 }, { -sin(y), 0, cos(y), 0 }, { 0, 0, 0, 1 } });
-	Matrix4 zRot=Matrix4({ { cos(x), -sin(x), 0, 0 }, { sin(x), cos(x), 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } });
+	Matrix4 xRot = Matrix4({{ {{ 1, 0, 0, 0 }}, {{ 0, cos(x), -sin(x), 0 }}, {{ 0, sin(x), cos(x), 0 }}, {{ 0, 0, 0, 1 }} }});
+	Matrix4 yRot = Matrix4({{ {{ cos(y), 0, sin(y), 0 }}, {{ 0, 1, 0, 0 }}, {{ -sin(y), 0, cos(y), 0 }}, {{ 0, 0, 0, 1 }} }});
+	Matrix4 zRot = Matrix4({{ {{ cos(x), -sin(x), 0, 0 }}, {{ sin(x), cos(x), 0, 0 }}, {{ 0, 0, 1, 0 }}, {{ 0, 0, 0, 1 }} }});
 	return xRot*yRot*zRot;
 }
 

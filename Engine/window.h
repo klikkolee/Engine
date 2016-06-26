@@ -1,8 +1,8 @@
 #ifndef ENGINE_WINDOW_H
 #define ENGINE_WINDOW_H
 
-#include "vector2.hpp"
-#include "render_target.hpp"
+#include "vector2.h"
+#include "render_target.h"
 #include <SDL.h>
 #include <string>
 

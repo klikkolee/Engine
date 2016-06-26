@@ -47,31 +47,31 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="vector3.hpp">
+    <ClInclude Include="choreographer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="matrix4.hpp">
+    <ClInclude Include="matrix4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vector4.hpp">
+    <ClInclude Include="quaternion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="quaternion.hpp">
+    <ClInclude Include="render_target.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="transform.hpp">
+    <ClInclude Include="transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="choreographer.hpp">
+    <ClInclude Include="vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="window.hpp">
+    <ClInclude Include="vector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vector2.hpp">
+    <ClInclude Include="vector4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="i_render_target.hpp">
+    <ClInclude Include="window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

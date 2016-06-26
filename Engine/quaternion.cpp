@@ -1,5 +1,5 @@
-#include "quaternion.hpp"
-#include "vector3.hpp"
+#include "quaternion.h"
+#include "vector3.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 Quaternion::Quaternion(const Vector3& axis,double angle)

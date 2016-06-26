@@ -8,6 +8,7 @@ thus #define __iob_func __acrt_iob_func will not work
 FILE _iob[] = { *stdin, *stdout, *stderr };
 extern "C" FILE * __iob_func(void)
 {
+#pragma warning(suppress: 26485)
 	return _iob;
 }
 #endif

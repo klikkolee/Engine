@@ -1,9 +1,6 @@
-#include "vector4.hpp"
-#include "vector3.hpp"
-Vector4::Vector4()
-{
-	x,y,z,w=0;
-}
+#include "vector4.h"
+#include "vector3.h"
+Vector4::Vector4() : x(0),y(0),z(0),w(0) {}
 Vector4::Vector4(double x,double y,double z, double w)
 {
 	this->x=x;

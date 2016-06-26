@@ -2,7 +2,7 @@
 #define ENGINE_QUATERNION_H
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include "vector3.hpp"
+#include "vector3.h"
 class Matrix4;
 class Quaternion final
 {

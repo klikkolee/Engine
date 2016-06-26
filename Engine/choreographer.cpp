@@ -1,5 +1,5 @@
-#include "choreographer.hpp"
-#include "window.hpp"
+#include "choreographer.h"
+#include "window.h"
 #include "SDL.h"
 #include "GL\glew.h"
 #include <vector>

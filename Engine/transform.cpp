@@ -1,7 +1,7 @@
-#include "transform.hpp"
-#include "quaternion.hpp"
-#include "vector3.hpp"
-#include "matrix4.hpp"
+#include "transform.h"
+#include "quaternion.h"
+#include "vector3.h"
+#include "matrix4.h"
 void Transform::Rotate(Quaternion rotation)
 {
 	this->rotation=rotation*this->rotation;

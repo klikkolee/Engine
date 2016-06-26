@@ -1,8 +1,8 @@
 #ifndef ENGINE_TRANSFORM_H
 #define ENGINE_TRANSFORM_H
-#include "quaternion.hpp"
-#include "vector3.hpp"
-#include "matrix4.hpp"
+#include "quaternion.h"
+#include "vector3.h"
+#include "matrix4.h"
 #include <vector>
 class Transform final
 {
@@ -12,8 +12,8 @@ class Transform final
 	Vector3 position;
 	Vector3 scale;
 public:
-	Transform() : rotation(),position(),scale() {}
-	Transform(Quaternion rotation,Vector3 position,Vector3 scale) : rotation(rotation),position(position),scale(scale) {}
+	Transform() : rotation(),position(),scale(),parent(nullptr) {}
+	Transform(Quaternion rotation,Vector3 position,Vector3 scale) : rotation(rotation),position(position),scale(scale),parent(nullptr) {}
 
 	Matrix4 WorldToLocalMatrix();
 	Matrix4 LocalToWorldMatrix();

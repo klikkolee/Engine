@@ -83,15 +83,15 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="choreographer.hpp" />
-    <ClInclude Include="i_render_target.hpp" />
-    <ClInclude Include="matrix4.hpp" />
-    <ClInclude Include="quaternion.hpp" />
-    <ClInclude Include="transform.hpp" />
-    <ClInclude Include="vector2.hpp" />
-    <ClInclude Include="vector3.hpp" />
-    <ClInclude Include="vector4.hpp" />
-    <ClInclude Include="window.hpp" />
+    <ClInclude Include="choreographer.h" />
+    <ClInclude Include="matrix4.h" />
+    <ClInclude Include="quaternion.h" />
+    <ClInclude Include="render_target.h" />
+    <ClInclude Include="transform.h" />
+    <ClInclude Include="vector2.h" />
+    <ClInclude Include="vector3.h" />
+    <ClInclude Include="vector4.h" />
+    <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -107,7 +107,7 @@
     <Import Project="..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets" Condition="Exists('..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets')" />
     <Import Project="..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets" Condition="Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" />
     <Import Project="..\packages\Microsoft.CppCoreCheck.14.0.23917.2\build\native\Microsoft.CppCoreCheck.targets" Condition="Exists('..\packages\Microsoft.CppCoreCheck.14.0.23917.2\build\native\Microsoft.CppCoreCheck.targets')" />
-	<Import Project="..\packages\Microsoft.Gsl.0.1.2.1\build\native\Microsoft.Gsl.targets" Condition="Exists('..\packages\Microsoft.Gsl.0.1.2.1\build\native\Microsoft.Gsl.targets')" />
+    <Import Project="..\packages\Microsoft.Gsl.0.1.2.1\build\native\Microsoft.Gsl.targets" Condition="Exists('..\packages\Microsoft.Gsl.0.1.2.1\build\native\Microsoft.Gsl.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
