@@ -22,7 +22,7 @@ public:
 	inline double GetWidth() { return width; }
 	inline int GetID() { return sdlWindowID; }
 	void SwapBuffers();
-	virtual void BindAsRenderTarget();
+	virtual void BindAsRenderTarget() override;
 	inline void SetFullScreen(bool value) { SDL_SetWindowFullscreen(sdlWindow, value ? SDL_WINDOW_FULLSCREEN : 0); }
 	inline void SetSize(int width, int height) { SDL_SetWindowSize(sdlWindow, width, height); }
 };
