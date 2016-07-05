@@ -35,12 +35,14 @@ double Matrix4::Determinant()
 {
 	//TODO: remove assignments which algorithm will never branch on
 	//TODO: simplify
-	std::array<std::array<double, 4>, 4> utm{};
+
+	double utm[4][4]{};
+	auto utmView = gsl::span<double, 4, 4>(utm);
 	for (int i=0; i<4; i++)
 	{
 		for (int j=0; j<4; j++)
 		{
-			utm[i][j]=members[i][j];
+			utmView[i][j]=members[i][j];
 		}
 	}
 	
@@ -49,27 +51,27 @@ double Matrix4::Determinant()
 	double r3 = 1;
 	double sign=1;
 
-	if (!(utm[1][0]==0&&utm[2][0]==0&&utm[3][0]==0))
+	if (!(utmView[1][0]==0&&utmView[2][0]==0&&utmView[3][0]==0))
 	{
-		if (utm[0][0]==0)
+		if (utmView[0][0]==0)
 		{
-			if (utm[1][0]!=0)
+			if (utmView[1][0]!=0)
 			{
 				for (int i=0; i<4; i++)
 				{
-					double temp=utm[0][i];
-					utm[0][i]=utm[1][i];
-					utm[1][i]=temp;
+					double temp=utmView[0][i];
+					utmView[0][i]=utmView[1][i];
+					utmView[1][i]=temp;
 				}
 				sign*=-1;
 			}
-			else if (utm[2][0]!=0)
+			else if (utmView[2][0]!=0)
 			{
 				for (int i=0; i<4; i++)
 				{
-					double temp=utm[0][i];
-					utm[0][i]=utm[2][i];
-					utm[2][i]=temp;
+					double temp=utmView[0][i];
+					utmView[0][i]=utmView[2][i];
+					utmView[2][i]=temp;
 				}
 				sign*=-1;
 			}
@@ -77,43 +79,43 @@ double Matrix4::Determinant()
 			{
 				for (int i=0; i<4; i++)
 				{
-					double temp=utm[0][i];
-					utm[0][i]=utm[3][i];
-					utm[3][i]=temp;
+					double temp=utmView[0][i];
+					utmView[0][i]=utmView[3][i];
+					utmView[3][i]=temp;
 				}
 				sign*=-1;
 			}
 		}
-		r1=utm[1][0];
-		r2=utm[2][0];
-		r3=utm[3][0];
-		utm[1][0]-=r1*utm[0][0]/utm[0][0];
-		utm[1][1]-=r1*utm[0][1]/utm[0][0];
-		utm[1][2]-=r1*utm[0][2]/utm[0][0];
-		utm[1][3]-=r1*utm[0][3]/utm[0][0];
+		r1=utmView[1][0];
+		r2=utmView[2][0];
+		r3=utmView[3][0];
+		utmView[1][0]-=r1*utmView[0][0]/utmView[0][0];
+		utmView[1][1]-=r1*utmView[0][1]/utmView[0][0];
+		utmView[1][2]-=r1*utmView[0][2]/utmView[0][0];
+		utmView[1][3]-=r1*utmView[0][3]/utmView[0][0];
 
-		utm[2][0]-=r2*utm[0][0]/utm[0][0];
-		utm[2][1]-=r2*utm[0][1]/utm[0][0];
-		utm[2][2]-=r2*utm[0][2]/utm[0][0];
-		utm[2][3]-=r2*utm[0][3]/utm[0][0];
+		utmView[2][0]-=r2*utmView[0][0]/utmView[0][0];
+		utmView[2][1]-=r2*utmView[0][1]/utmView[0][0];
+		utmView[2][2]-=r2*utmView[0][2]/utmView[0][0];
+		utmView[2][3]-=r2*utmView[0][3]/utmView[0][0];
 
-		utm[3][0]-=r3*utm[0][0]/utm[0][0];
-		utm[3][1]-=r3*utm[0][1]/utm[0][0];
-		utm[3][2]-=r3*utm[0][2]/utm[0][0];
-		utm[3][3]-=r3*utm[0][3]/utm[0][0];
+		utmView[3][0]-=r3*utmView[0][0]/utmView[0][0];
+		utmView[3][1]-=r3*utmView[0][1]/utmView[0][0];
+		utmView[3][2]-=r3*utmView[0][2]/utmView[0][0];
+		utmView[3][3]-=r3*utmView[0][3]/utmView[0][0];
 	}
 
-	if (!(utm[2][1]==0&&utm[3][1]==0))
+	if (!(utmView[2][1]==0&&utmView[3][1]==0))
 	{
-		if (utm[1][1]==0)
+		if (utmView[1][1]==0)
 		{
-			if (utm[2][1]!=0)
+			if (utmView[2][1]!=0)
 			{
 				for (int i=0; i<4; i++)
 				{
-					double temp=utm[1][i];
-					utm[1][i]=utm[2][i];
-					utm[2][i]=temp;
+					double temp=utmView[1][i];
+					utmView[1][i]=utmView[2][i];
+					utmView[2][i]=temp;
 				}
 				sign*=-1;
 			}
@@ -121,48 +123,48 @@ double Matrix4::Determinant()
 			{
 				for (int i=0; i<4; i++)
 				{
-					double temp=utm[1][i];
-					utm[1][i]=utm[3][i];
-					utm[3][i]=temp;
+					double temp=utmView[1][i];
+					utmView[1][i]=utmView[3][i];
+					utmView[3][i]=temp;
 				}
 				sign*=-1;
 			}
 		}
-		r2=utm[2][1];
-		r3=utm[3][1];
+		r2=utmView[2][1];
+		r3=utmView[3][1];
 
-		utm[2][0]-=r2*utm[1][0]/utm[1][1];
-		utm[2][1]-=r2*utm[1][1]/utm[1][1];
-		utm[2][2]-=r2*utm[1][2]/utm[1][1];
-		utm[2][3]-=r2*utm[1][3]/utm[1][1];
+		utmView[2][0]-=r2*utmView[1][0]/utmView[1][1];
+		utmView[2][1]-=r2*utmView[1][1]/utmView[1][1];
+		utmView[2][2]-=r2*utmView[1][2]/utmView[1][1];
+		utmView[2][3]-=r2*utmView[1][3]/utmView[1][1];
 
-		utm[3][0]-=r3*utm[1][0]/utm[1][1];
-		utm[3][1]-=r3*utm[1][1]/utm[1][1];
-		utm[3][2]-=r3*utm[1][2]/utm[1][1];
-		utm[3][3]-=r3*utm[1][3]/utm[1][1];
+		utmView[3][0]-=r3*utmView[1][0]/utmView[1][1];
+		utmView[3][1]-=r3*utmView[1][1]/utmView[1][1];
+		utmView[3][2]-=r3*utmView[1][2]/utmView[1][1];
+		utmView[3][3]-=r3*utmView[1][3]/utmView[1][1];
 	}
 
-	if (utm[3][2]!=0)
+	if (utmView[3][2]!=0)
 	{
-		if (utm[2][2]==0)
+		if (utmView[2][2]==0)
 		{
 			for (int i=0; i<4; i++)
 			{
-				double temp=utm[2][i];
-				utm[2][i]=utm[3][i];
-				utm[3][i]=temp;
+				double temp=utmView[2][i];
+				utmView[2][i]=utmView[3][i];
+				utmView[3][i]=temp;
 			}
 			sign*=-1;
 		}
-		r3=utm[3][2];
+		r3=utmView[3][2];
 
-		utm[3][0]-=r3*utm[2][0]/utm[2][2];
-		utm[3][1]-=r3*utm[2][1]/utm[2][2];
-		utm[3][2]-=r3*utm[2][2]/utm[2][2];
-		utm[3][3]-=r3*utm[2][3]/utm[2][2];
+		utmView[3][0]-=r3*utmView[2][0]/utmView[2][2];
+		utmView[3][1]-=r3*utmView[2][1]/utmView[2][2];
+		utmView[3][2]-=r3*utmView[2][2]/utmView[2][2];
+		utmView[3][3]-=r3*utmView[2][3]/utmView[2][2];
 	}
 
-	return sign*utm[0][0]*utm[1][1]*utm[2][2]*utm[3][3];
+	return sign*utmView[0][0]*utmView[1][1]*utmView[2][2]*utmView[3][3];
 }
 
 //calculates inverse by appling
@@ -172,13 +174,15 @@ Matrix4 Matrix4::Inverse() const
 {
 	//TODO: remove assignments which algorithm will never branch on
 	//TODO: simplify
-	std::array<std::array<double, 4>, 8> augMat{};
+
+	double augMat[4][4]{};
+	auto augMatView = gsl::span<double, 4, 4>(augMat);
 	for (int i=0; i<4; i++)
 	{
 		for (int j=0; j<4; j++)
 		{
-			augMat[i][j]=members[i][j];
-			augMat[i][j+4]=i==j ? 1 : 0;
+			augMatView[i][j]=members[i][j];
+			augMatView[i][j+4]=i==j ? 1 : 0;
 		}
 	}
 	double r0 = 1;
@@ -186,131 +190,131 @@ Matrix4 Matrix4::Inverse() const
 	double r2 = 1;
 	double r3 = 1;
 	double scale = 1;
-	if (augMat[0][0]==0 && augMat[1][0]==0 && augMat[2][0]==0 && augMat[3][0] == 0)
+	if (augMatView[0][0]==0 && augMatView[1][0]==0 && augMatView[2][0]==0 && augMatView[3][0] == 0)
 		throw std::invalid_argument(UNINVERTIBLE_EXCEPTION_TEXT);
-	else if (augMat[0][0] == 0)
+	else if (augMatView[0][0] == 0)
 	{
-		if (augMat[1][0] != 0)
+		if (augMatView[1][0] != 0)
 		{
 			for (int i=0; i<8; i++)
 			{
-				double temp=augMat[0][i];
-				augMat[0][i]=augMat[1][i];
-				augMat[1][i]=temp;
+				double temp=augMatView[0][i];
+				augMatView[0][i]=augMatView[1][i];
+				augMatView[1][i]=temp;
 			}
 		}
-		else if (augMat[2][0] != 0)
+		else if (augMatView[2][0] != 0)
 		{
 			for (int i=0; i<8; i++)
 			{
-				double temp=augMat[0][i];
-				augMat[0][i]=augMat[2][i];
-				augMat[2][i]=temp;
+				double temp=augMatView[0][i];
+				augMatView[0][i]=augMatView[2][i];
+				augMatView[2][i]=temp;
 			}
 		}
 		else //augmat[3][0] != 0
 		{
 			for (int i=0; i<8; i++)
 			{
-				double temp=augMat[0][i];
-				augMat[0][i]=augMat[3][i];
-				augMat[3][i]=temp;
+				double temp=augMatView[0][i];
+				augMatView[0][i]=augMatView[3][i];
+				augMatView[3][i]=temp;
 			}
 		}
 	}
-	r1=augMat[1][0];
-	r2=augMat[2][0];
-	r3=augMat[3][0];
-	scale=augMat[0][0];
+	r1=augMatView[1][0];
+	r2=augMatView[2][0];
+	r3=augMatView[3][0];
+	scale=augMatView[0][0];
 	for (int i=0; i < 8; i++)
 	{
-		augMat[0][i]/=scale;
+		augMatView[0][i]/=scale;
 	}
 	for (int i=0; i < 8; i++)
 	{
-		augMat[1][i]-=r1*augMat[0][i];
-		augMat[2][i]-=r2*augMat[0][i];
-		augMat[3][i]-=r3*augMat[0][i];
+		augMatView[1][i]-=r1*augMatView[0][i];
+		augMatView[2][i]-=r2*augMatView[0][i];
+		augMatView[3][i]-=r3*augMatView[0][i];
 	}
-	if (augMat[1][1]==0 && augMat[2][1]==0 && augMat[3][1] == 0)
+	if (augMatView[1][1]==0 && augMatView[2][1]==0 && augMatView[3][1] == 0)
 		throw std::invalid_argument(UNINVERTIBLE_EXCEPTION_TEXT);
-	else if (augMat[1][1] == 0)
+	else if (augMatView[1][1] == 0)
 	{
-		if (augMat[2][1] != 0)
+		if (augMatView[2][1] != 0)
 		{
 			for (int i=0; i<8; i++)
 			{
-				double temp=augMat[1][i];
-				augMat[1][i]=augMat[2][i];
-				augMat[2][i]=temp;
+				double temp=augMatView[1][i];
+				augMatView[1][i]=augMatView[2][i];
+				augMatView[2][i]=temp;
 			}
 		}
 		else //augmat[3][1] != 0
 		{
 			for (int i=0; i<8; i++)
 			{
-				double temp=augMat[1][i];
-				augMat[1][i]=augMat[3][i];
-				augMat[3][i]=temp;
+				double temp=augMatView[1][i];
+				augMatView[1][i]=augMatView[3][i];
+				augMatView[3][i]=temp;
 			}
 		}
 	}
-	r0=augMat[0][1];
-	r2=augMat[2][1];
-	r3=augMat[3][1];
-	scale=augMat[1][1];
+	r0=augMatView[0][1];
+	r2=augMatView[2][1];
+	r3=augMatView[3][1];
+	scale=augMatView[1][1];
 	for (int i=0; i < 8; i++)
 	{
-		augMat[1][i]/=scale;
+		augMatView[1][i]/=scale;
 	}
 
 	for (int i=0; i < 8; i++)
 	{
-		augMat[0][i]-=r0*augMat[1][i];
-		augMat[2][i]-=r2*augMat[1][i];
-		augMat[3][i]-=r3*augMat[1][i];
+		augMatView[0][i]-=r0*augMatView[1][i];
+		augMatView[2][i]-=r2*augMatView[1][i];
+		augMatView[3][i]-=r3*augMatView[1][i];
 	}
-	if (augMat[2][2]==0 && augMat[3][2] == 0)
+	if (augMatView[2][2]==0 && augMatView[3][2] == 0)
 		throw std::invalid_argument(UNINVERTIBLE_EXCEPTION_TEXT);
-	else if (augMat[2][2] == 0)
+	else if (augMatView[2][2] == 0)
 	{
 		// augmat[3][2] != 0
 		for (int i=0; i<8; i++)
 		{
-			double temp=augMat[2][i];
-			augMat[2][i]=augMat[3][i];
-			augMat[3][i]=temp;
+			double temp=augMatView[2][i];
+			augMatView[2][i]=augMatView[3][i];
+			augMatView[3][i]=temp;
 		}
 	}
-	r0=augMat[0][2];
-	r1=augMat[1][2];
-	r3=augMat[3][2];
-	scale=augMat[2][2];
+	r0=augMatView[0][2];
+	r1=augMatView[1][2];
+	r3=augMatView[3][2];
+	scale=augMatView[2][2];
 	for (int i=0; i < 8; i++)
 	{
-		augMat[2][i]/=scale;
+		augMatView[2][i]/=scale;
 	}
 	for (int i=0; i < 8; i++)
 	{
-		augMat[0][i]-=r0*augMat[2][i];
-		augMat[1][i]-=r1*augMat[2][i];
-		augMat[3][i]-=r3*augMat[2][i];
+		augMatView[0][i]-=r0*augMatView[2][i];
+		augMatView[1][i]-=r1*augMatView[2][i];
+		augMatView[3][i]-=r3*augMatView[2][i];
 	}
-	if (augMat[3][3] == 0)
+	if (augMatView[3][3] == 0)
 		throw std::invalid_argument(UNINVERTIBLE_EXCEPTION_TEXT);
-	r0=augMat[0][3];
-	r1=augMat[1][3];
-	r2=augMat[2][3];
-	scale=augMat[3][3];
+	r0=augMatView[0][3];
+	r1=augMatView[1][3];
+	r2=augMatView[2][3];
+	scale=augMatView[3][3];
 	for (int i=0; i < 8; i++)
 	{
-		augMat[3][i]/=scale;
+		augMatView[3][i]/=scale;
 	}
 	for (int i=0; i < 8; i++)
 	{
-		augMat[0][i]-=r0*augMat[3][i];
-		augMat[1][i]-=r1*augMat[3][i];
-		augMat[2][i]-=r2*augMat[3][i];
+		augMatView[0][i]-=r0*augMatView[3][i];
+		augMatView[1][i]-=r1*augMatView[3][i];
+		augMatView[2][i]-=r2*augMatView[3][i];
 	}
 
 	std::array<std::array<double, 4>, 4> result{};
@@ -318,7 +322,7 @@ Matrix4 Matrix4::Inverse() const
 	{
 		for (int j=0; j < 4; j++)
 		{
-			result[i][j]=augMat[i][j+4];
+			result[i][j]=augMatView[i][j+4];
 		}
 	}
 
