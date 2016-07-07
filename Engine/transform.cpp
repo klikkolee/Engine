@@ -20,6 +20,5 @@ Matrix4 Transform::LocalToWorldMatrix()
 void Transform::SetParent(Transform& parent)
 {
 	parent.children.push_back(this);
-	Transform* p=&parent;
 	this->parent=&parent;
 }

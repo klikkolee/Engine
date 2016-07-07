@@ -58,7 +58,6 @@ void Choreographer::Start()
 void Choreographer::Stop()
 {
 	isRunning = false;
-	SDL_Quit();
 }
 
 void Choreographer::SetStopOnMainWindowClose(bool value)
@@ -68,13 +67,17 @@ void Choreographer::SetStopOnMainWindowClose(bool value)
 
 void Choreographer::DeInitialize()
 {
-	isInitialized = false;
 	Stop();
+	if (!isInitialized) return;
 	windowMap.clear();
+	SDL_Quit();
+	isInitialized = false;
 }
 
 void Choreographer::Initialize()
 {
+	if (isInitialized) return;
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -98,6 +101,5 @@ void Choreographer::Initialize()
 	}
 	mainWindow = std::make_unique<Window>(800, 600, "Title");
 
-	//windowMap.emplace(mainWindow->GetID(), mainWindow);
 	isInitialized = true;
 }

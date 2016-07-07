@@ -14,14 +14,14 @@ public:
 	inline const Vector3 operator-(const Vector3& rhs) const { return Vector3(*this)-=rhs; }
 	inline const Vector3 operator*(double rhs) const { return Vector3(*this)*=rhs; }
 	inline const Vector3 operator/(double rhs) const { return Vector3(*this)/=rhs; }
-	inline Vector3& Vector3::operator+=(const Vector3& rhs)
+	inline Vector3& operator+=(const Vector3& rhs)
 	{
 		x+=rhs.x;
 		y+=rhs.y;
 		z+=rhs.z;
 		return *this;
 	}
-	inline Vector3& Vector3::operator-=(const Vector3& rhs)
+	inline Vector3& operator-=(const Vector3& rhs)
 	{
 		x-=rhs.x;
 		y-=rhs.y;

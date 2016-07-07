@@ -12,8 +12,8 @@ class Transform final
 	Vector3 position;
 	Vector3 scale;
 public:
-	Transform() : rotation(),position(),scale(),parent(nullptr) {}
-	Transform(Quaternion rotation,Vector3 position,Vector3 scale) : rotation(rotation),position(position),scale(scale),parent(nullptr) {}
+	Transform() : parent(nullptr),children(),rotation(),position(),scale() {}
+	Transform(Quaternion rotation,Vector3 position,Vector3 scale) : parent(nullptr),children(),rotation(rotation),position(position),scale(scale) {}
 
 	Matrix4 WorldToLocalMatrix();
 	Matrix4 LocalToWorldMatrix();
