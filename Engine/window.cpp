@@ -17,7 +17,7 @@ void Window::BindAsRenderTarget()
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, 1, 1);
+	glViewport(0, 0, width, height);
 }
 
 Window::Window(int width, int height, const std::string & title) : width(width), height(height)

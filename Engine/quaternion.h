@@ -7,6 +7,7 @@ class Matrix4;
 class Quaternion final
 {
 	friend class Matrix4;
+	friend class Vector3;
 	friend const Quaternion operator*(const Vector3& lhs, const Quaternion& rhs);
 	double i,j,k,w;
 	inline Quaternion(double i,double j,double k,double w) : i(i),j(j),k(k),w(w) {}
@@ -22,13 +23,13 @@ class Quaternion final
 		return *this;
 	}
 	//order: zyx
-	static Quaternion eulerRotationRadian(double x,double y,double z);
+	static Quaternion EulerRotationRadian(double x,double y,double z);
 	static Quaternion naturalLog(const Quaternion& value);
 	static Quaternion exponential(const Quaternion& value);
 	inline static Quaternion power(const Quaternion& base,double exponent) { return exponential(naturalLog(base)*exponent); }
 public:
 	inline Quaternion() : Quaternion(0,0,0,1) {};
-	explicit Quaternion(const Vector3& axis,double angle);
+	explicit Quaternion(Vector3 axis,double angle);
 	
 	inline const Quaternion operator*(const Quaternion& rhs) const { return Quaternion(*this)*=rhs; }
 	inline const Quaternion operator*(const Vector3& rhs) const { return Quaternion(*this)*=rhs; }
@@ -53,9 +54,10 @@ public:
 	inline Vector3 Axis() const { return Vector3(i,j,k)/Magnitude(); }
 	inline double Angle() const { return 2*acos(w); }
 	//order: zyx
-	inline static Quaternion EulerRotation(double x,double y,double z) { return eulerRotationRadian(x*M_PI/180,y*M_PI/180,z*M_PI/180); }
+	inline static Quaternion EulerRotation(double x,double y,double z) { return EulerRotationRadian(x*M_PI/180,y*M_PI/180,z*M_PI/180); }
 	inline static Quaternion Identity() { return Quaternion(0,0,0,1); }
 	inline static Quaternion Slerp(const Quaternion& q0,const Quaternion& q1,double t) { return q0*power(q0.Conjugate()*q1,t); }
+	static Quaternion RotationFromAToB(Vector3 a, Vector3 b);
 };
 
 inline const Quaternion operator*(const Vector3& lhs, const Quaternion& rhs) { return Quaternion(lhs)*=rhs; }

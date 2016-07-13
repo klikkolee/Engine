@@ -10,8 +10,5 @@ namespace Choreographer
 	//stop main loop
 	void Stop();
 	void SetStopOnMainWindowClose(bool value);
-	//stops main loop and undoes all internal setup.
-	//redone on next start call
-	void DeInitialize();
 }
 #endif // !ENGINE_CHOREOGRAPHER_H

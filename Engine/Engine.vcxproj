@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140_clang_3_7</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -47,6 +47,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Users\klikkolee\Source\Repos\Engine\packages\Microsoft.Gsl.0.1.2.1\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -74,8 +75,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="choreographer.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4.cpp" />
+    <ClCompile Include="mesh.cpp" />
     <ClCompile Include="quaternion.cpp" />
     <ClCompile Include="SDL_fix.cpp" />
     <ClCompile Include="transform.cpp" />
@@ -85,10 +88,13 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="choreographer.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="log.h" />
     <ClInclude Include="matrix4.h" />
+    <ClInclude Include="mesh.h" />
     <ClInclude Include="quaternion.h" />
-    <ClInclude Include="render_target.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="vector2.h" />
     <ClInclude Include="vector3.h" />
@@ -96,7 +102,10 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="green_shader.fp" />
     <None Include="packages.config" />
+    <None Include="red_shader.fp" />
+    <None Include="red_shader.vp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

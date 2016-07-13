@@ -2,8 +2,9 @@
 #include "vector3.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
-Quaternion::Quaternion(const Vector3& axis,double angle)
+Quaternion::Quaternion( Vector3 axis,double angle)
 {
+	Vector3::Normalize(axis);
 	double halfAngle=angle*M_PI/360;
 	i=axis.x*sin(halfAngle);
 	j=axis.y*sin(halfAngle);
@@ -11,7 +12,7 @@ Quaternion::Quaternion(const Vector3& axis,double angle)
 	w=cos(halfAngle);
 }
 Quaternion::Quaternion(const Vector3& other) : i(other.x), j(other.y), k(other.z), w(0) {}
-Quaternion Quaternion::eulerRotationRadian(double x,double y,double z)
+Quaternion Quaternion::EulerRotationRadian(double x,double y,double z)
 {
 	x/=2;
 	y/=2;
@@ -21,6 +22,10 @@ Quaternion Quaternion::eulerRotationRadian(double x,double y,double z)
 	double k=cos(x)*cos(y)*sin(z)-sin(x)*sin(y)*cos(z);
 	double w=cos(x)*cos(y)*cos(z)+sin(x)*sin(y)*sin(z);
 	return Quaternion(i,j,k,w);
+}
+Quaternion Quaternion::RotationFromAToB(Vector3 a, Vector3 b)
+{
+	return Vector3::Cross(a,b).Magnitude() == 0 ? Quaternion::Identity(): Quaternion(Vector3::Cross(a,b),acos(Vector3::Dot(a,b)));
 }
 Quaternion Quaternion::naturalLog(const Quaternion& value)
 {

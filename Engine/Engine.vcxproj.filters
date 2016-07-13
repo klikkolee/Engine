@@ -45,6 +45,12 @@
     <ClCompile Include="choreographer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="choreographer.h">
@@ -54,9 +60,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="quaternion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="render_target.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="transform.h">
@@ -74,8 +77,29 @@
     <ClInclude Include="window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="red_shader.vp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="red_shader.fp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="green_shader.fp">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -9,9 +9,9 @@ void Transform::Rotate(Quaternion rotation)
 Matrix4 Transform::WorldToLocalMatrix()
 {
 	if (parent == NULL)
-		return Matrix4::translationMatrix(position)*Matrix4(rotation)*Matrix4::scaleMatrix(scale);
+		return Matrix4::TranslationMatrix(position)*Matrix4(rotation)*Matrix4::ScaleMatrix(scale);
 	else
-		return parent->WorldToLocalMatrix()*Matrix4::translationMatrix(position)*Matrix4(rotation)*Matrix4::scaleMatrix(scale);
+		return parent->WorldToLocalMatrix()*Matrix4::TranslationMatrix(position)*Matrix4(rotation)*Matrix4::ScaleMatrix(scale);
 }
 Matrix4 Transform::LocalToWorldMatrix()
 {
