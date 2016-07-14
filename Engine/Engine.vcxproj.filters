@@ -101,5 +101,8 @@
     <None Include="green_shader.fp">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="cube_shader.fp">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

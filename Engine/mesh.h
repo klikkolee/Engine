@@ -18,6 +18,7 @@ public:
 	void Draw() const;
 
 	static Mesh TestTriangle();//temp
+	static Mesh TestCube(); //temp
 };
 
 #endif // !ENGINE_MESH_H

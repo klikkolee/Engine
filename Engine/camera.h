@@ -16,7 +16,7 @@ struct Camera
 	}
 	Vector3 Up()
 	{
-		return Matrix4::EulerRotationRadian(xRot, 0, zRot)*Vector3(0, 1, 0);
+		return Matrix4::EulerRotationRadian(0, yRot, 0)*Matrix4::EulerRotationRadian(xRot, 0, 0)*Vector3(0, 1, 0);
 	}
 	Vector3 Right()
 	{

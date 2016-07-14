@@ -29,15 +29,18 @@ namespace Choreographer
 		{
 			//temp
 			Mesh mesh = Mesh::TestTriangle();
+			Mesh cube = Mesh::TestCube();
 			GLuint shaderProgram = GetShaderProgram("red_shader.vp", "red_shader.fp");
 			GLuint greenShaderProgram = GetShaderProgram("red_shader.vp", "green_shader.fp");
+			GLuint cubeShaderProgram = GetShaderProgram("red_shader.vp", "cube_shader.fp");
 			glUseProgram(shaderProgram);
-			glClearColor(0, 0, 1, 1);
+			glClearColor(0, 0, 0, 1);
 
 
 			Matrix4 modelMatrix = Matrix4::TranslationMatrix(0, 0, 10);// = Matrix4::ProjectionMatrix(45, .1, 1000, 800 / 600) *Matrix4::TranslationMatrix(0, 0, 10);
+			Matrix4 cubeModelMatrix = Matrix4::TranslationMatrix(10, 0, 10);
 			Matrix4 viewMatrix = Matrix4::TranslationMatrix(0, 0, 10);
-			Matrix4 ProjectionMatrix = Matrix4::ProjectionMatrix(90, .1, 1000, 800 / 600);
+			Matrix4 ProjectionMatrix = Matrix4::ProjectionMatrix(90, .1, 1000, 800.0f / 600.0f);
 			Matrix4 mvp;
 
 			GLuint mvpUniform = glGetUniformLocation(shaderProgram, "MVP");
@@ -53,7 +56,7 @@ namespace Choreographer
 				SDL_Event event;
 				Uint32 startPollTime = SDL_GetTicks();
 				Uint32 endPollTime = SDL_GetTicks();
-				SDL_WaitEventTimeout(&event, 5);
+				while(SDL_WaitEventTimeout(&event, 5))
 				{
 					switch (event.type)
 					{
@@ -131,6 +134,18 @@ namespace Choreographer
 				mvp.AsFloatBuffer(mvpFloatBuffer);
 				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
 				mesh.Draw();
+
+				glUseProgram(cubeShaderProgram);
+				mvp = ProjectionMatrix*viewMatrix*cubeModelMatrix;
+				mvp.AsFloatBuffer(mvpFloatBuffer);
+				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
+				cube.Draw();
+				glUseProgram(greenShaderProgram);
+				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
+				glCullFace(GL_FRONT);
+				cube.Draw();
+				glCullFace(GL_BACK);
+
 				mainWindow->SwapBuffers();
 				//endtemp
 				endFrameTime = SDL_GetTicks();
