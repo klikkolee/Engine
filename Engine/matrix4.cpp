@@ -32,300 +32,42 @@ Matrix4::Matrix4(const Quaternion& rotation)
 //an upper triangular matrix with identical determinant
 double Matrix4::Determinant() const
 {
-	//TODO: remove assignments which algorithm will never branch on
-	//TODO: simplify
-
-	double utm[4][4]{};
-	auto utmView = gsl::span<double, 4, 4>(utm);
-	for (int i=0; i<4; i++)
-	{
-		for (int j=0; j<4; j++)
-		{
-			utmView[i][j]=members[i][j];
-		}
-	}
-	
-	double r1 = 1;
-	double r2 = 1;
-	double r3 = 1;
-	double sign=1;
-
-	if (!(utmView[1][0]==0&&utmView[2][0]==0&&utmView[3][0]==0))
-	{
-		if (utmView[0][0]==0)
-		{
-			if (utmView[1][0]!=0)
-			{
-				for (int i=0; i<4; i++)
-				{
-					double temp=utmView[0][i];
-					utmView[0][i]=utmView[1][i];
-					utmView[1][i]=temp;
-				}
-				sign*=-1;
-			}
-			else if (utmView[2][0]!=0)
-			{
-				for (int i=0; i<4; i++)
-				{
-					double temp=utmView[0][i];
-					utmView[0][i]=utmView[2][i];
-					utmView[2][i]=temp;
-				}
-				sign*=-1;
-			}
-			else //utm[3][0] != 0
-			{
-				for (int i=0; i<4; i++)
-				{
-					double temp=utmView[0][i];
-					utmView[0][i]=utmView[3][i];
-					utmView[3][i]=temp;
-				}
-				sign*=-1;
-			}
-		}
-		r1=utmView[1][0];
-		r2=utmView[2][0];
-		r3=utmView[3][0];
-		utmView[1][0]-=r1*utmView[0][0]/utmView[0][0];
-		utmView[1][1]-=r1*utmView[0][1]/utmView[0][0];
-		utmView[1][2]-=r1*utmView[0][2]/utmView[0][0];
-		utmView[1][3]-=r1*utmView[0][3]/utmView[0][0];
-
-		utmView[2][0]-=r2*utmView[0][0]/utmView[0][0];
-		utmView[2][1]-=r2*utmView[0][1]/utmView[0][0];
-		utmView[2][2]-=r2*utmView[0][2]/utmView[0][0];
-		utmView[2][3]-=r2*utmView[0][3]/utmView[0][0];
-
-		utmView[3][0]-=r3*utmView[0][0]/utmView[0][0];
-		utmView[3][1]-=r3*utmView[0][1]/utmView[0][0];
-		utmView[3][2]-=r3*utmView[0][2]/utmView[0][0];
-		utmView[3][3]-=r3*utmView[0][3]/utmView[0][0];
-	}
-
-	if (!(utmView[2][1]==0&&utmView[3][1]==0))
-	{
-		if (utmView[1][1]==0)
-		{
-			if (utmView[2][1]!=0)
-			{
-				for (int i=0; i<4; i++)
-				{
-					double temp=utmView[1][i];
-					utmView[1][i]=utmView[2][i];
-					utmView[2][i]=temp;
-				}
-				sign*=-1;
-			}
-			else //utm[3][1]!=0
-			{
-				for (int i=0; i<4; i++)
-				{
-					double temp=utmView[1][i];
-					utmView[1][i]=utmView[3][i];
-					utmView[3][i]=temp;
-				}
-				sign*=-1;
-			}
-		}
-		r2=utmView[2][1];
-		r3=utmView[3][1];
-
-		utmView[2][0]-=r2*utmView[1][0]/utmView[1][1];
-		utmView[2][1]-=r2*utmView[1][1]/utmView[1][1];
-		utmView[2][2]-=r2*utmView[1][2]/utmView[1][1];
-		utmView[2][3]-=r2*utmView[1][3]/utmView[1][1];
-
-		utmView[3][0]-=r3*utmView[1][0]/utmView[1][1];
-		utmView[3][1]-=r3*utmView[1][1]/utmView[1][1];
-		utmView[3][2]-=r3*utmView[1][2]/utmView[1][1];
-		utmView[3][3]-=r3*utmView[1][3]/utmView[1][1];
-	}
-
-	if (utmView[3][2]!=0)
-	{
-		if (utmView[2][2]==0)
-		{
-			for (int i=0; i<4; i++)
-			{
-				double temp=utmView[2][i];
-				utmView[2][i]=utmView[3][i];
-				utmView[3][i]=temp;
-			}
-			sign*=-1;
-		}
-		r3=utmView[3][2];
-
-		utmView[3][0]-=r3*utmView[2][0]/utmView[2][2];
-		utmView[3][1]-=r3*utmView[2][1]/utmView[2][2];
-		utmView[3][2]-=r3*utmView[2][2]/utmView[2][2];
-		utmView[3][3]-=r3*utmView[2][3]/utmView[2][2];
-	}
-
-	return sign*utmView[0][0]*utmView[1][1]*utmView[2][2]*utmView[3][3];
+	//based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
+	return 
+		members[0][3] * members[1][2] * members[2][1] * members[3][0] - members[0][2] * members[1][3] * members[2][1] * members[3][0] - members[0][3] * members[1][1] * members[2][2] * members[3][0] + members[0][1] * members[1][3] * members[2][2] * members[3][0] +
+		members[0][2] * members[1][1] * members[2][3] * members[3][0] - members[0][1] * members[1][2] * members[2][3] * members[3][0] - members[0][3] * members[1][2] * members[2][0] * members[3][1] + members[0][2] * members[1][3] * members[2][0] * members[3][1] +
+		members[0][3] * members[1][0] * members[2][2] * members[3][1] - members[0][0] * members[1][3] * members[2][2] * members[3][1] - members[0][2] * members[1][0] * members[2][3] * members[3][1] + members[0][0] * members[1][2] * members[2][3] * members[3][1] +
+		members[0][3] * members[1][1] * members[2][0] * members[3][2] - members[0][1] * members[1][3] * members[2][0] * members[3][2] - members[0][3] * members[1][0] * members[2][1] * members[3][2] + members[0][0] * members[1][3] * members[2][1] * members[3][2] +
+		members[0][1] * members[1][0] * members[2][3] * members[3][2] - members[0][0] * members[1][1] * members[2][3] * members[3][2] - members[0][2] * members[1][1] * members[2][0] * members[3][3] + members[0][1] * members[1][2] * members[2][0] * members[3][3] +
+		members[0][2] * members[1][0] * members[2][1] * members[3][3] - members[0][0] * members[1][2] * members[2][1] * members[3][3] - members[0][1] * members[1][0] * members[2][2] * members[3][3] + members[0][0] * members[1][1] * members[2][2] * members[3][3];
 }
 
-//calculates inverse by appling
-//elementary row operations to
-//an augmented matrix
 Matrix4 Matrix4::Inverse() const
 {
-	//TODO: remove assignments which algorithm will never branch on
-	//TODO: simplify
+	//based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
+	double invMembers[4][4];
+	invMembers[0][0] = members[1][2] * members[2][3] * members[3][1] - members[1][3] * members[2][2] * members[3][1] + members[1][3] * members[2][1] * members[3][2] - members[1][1] * members[2][3] * members[3][2] - members[1][2] * members[2][1] * members[3][3] + members[1][1] * members[2][2] * members[3][3];
+	invMembers[0][1] = members[0][3] * members[2][2] * members[3][1] - members[0][2] * members[2][3] * members[3][1] - members[0][3] * members[2][1] * members[3][2] + members[0][1] * members[2][3] * members[3][2] + members[0][2] * members[2][1] * members[3][3] - members[0][1] * members[2][2] * members[3][3];
+	invMembers[0][2] = members[0][2] * members[1][3] * members[3][1] - members[0][3] * members[1][2] * members[3][1] + members[0][3] * members[1][1] * members[3][2] - members[0][1] * members[1][3] * members[3][2] - members[0][2] * members[1][1] * members[3][3] + members[0][1] * members[1][2] * members[3][3];
+	invMembers[0][3] = members[0][3] * members[1][2] * members[2][1] - members[0][2] * members[1][3] * members[2][1] - members[0][3] * members[1][1] * members[2][2] + members[0][1] * members[1][3] * members[2][2] + members[0][2] * members[1][1] * members[2][3] - members[0][1] * members[1][2] * members[2][3];
 
-	double augMat[4][4]{};
-	auto augMatView = gsl::span<double, 4, 4>(augMat);
-	for (int i=0; i<4; i++)
-	{
-		for (int j=0; j<4; j++)
-		{
-			augMatView[i][j]=members[i][j];
-			augMatView[i][j+4]=i==j ? 1 : 0;
-		}
-	}
-	double r0 = 1;
-	double r1 = 1;
-	double r2 = 1;
-	double r3 = 1;
-	double scale = 1;
-	if (augMatView[0][0]==0 && augMatView[1][0]==0 && augMatView[2][0]==0 && augMatView[3][0] == 0)
-		throw std::invalid_argument(UNINVERTIBLE_EXCEPTION_TEXT);
-	else if (augMatView[0][0] == 0)
-	{
-		if (augMatView[1][0] != 0)
-		{
-			for (int i=0; i<8; i++)
-			{
-				double temp=augMatView[0][i];
-				augMatView[0][i]=augMatView[1][i];
-				augMatView[1][i]=temp;
-			}
-		}
-		else if (augMatView[2][0] != 0)
-		{
-			for (int i=0; i<8; i++)
-			{
-				double temp=augMatView[0][i];
-				augMatView[0][i]=augMatView[2][i];
-				augMatView[2][i]=temp;
-			}
-		}
-		else //augmat[3][0] != 0
-		{
-			for (int i=0; i<8; i++)
-			{
-				double temp=augMatView[0][i];
-				augMatView[0][i]=augMatView[3][i];
-				augMatView[3][i]=temp;
-			}
-		}
-	}
-	r1=augMatView[1][0];
-	r2=augMatView[2][0];
-	r3=augMatView[3][0];
-	scale=augMatView[0][0];
-	for (int i=0; i < 8; i++)
-	{
-		augMatView[0][i]/=scale;
-	}
-	for (int i=0; i < 8; i++)
-	{
-		augMatView[1][i]-=r1*augMatView[0][i];
-		augMatView[2][i]-=r2*augMatView[0][i];
-		augMatView[3][i]-=r3*augMatView[0][i];
-	}
-	if (augMatView[1][1]==0 && augMatView[2][1]==0 && augMatView[3][1] == 0)
-		throw std::invalid_argument(UNINVERTIBLE_EXCEPTION_TEXT);
-	else if (augMatView[1][1] == 0)
-	{
-		if (augMatView[2][1] != 0)
-		{
-			for (int i=0; i<8; i++)
-			{
-				double temp=augMatView[1][i];
-				augMatView[1][i]=augMatView[2][i];
-				augMatView[2][i]=temp;
-			}
-		}
-		else //augmat[3][1] != 0
-		{
-			for (int i=0; i<8; i++)
-			{
-				double temp=augMatView[1][i];
-				augMatView[1][i]=augMatView[3][i];
-				augMatView[3][i]=temp;
-			}
-		}
-	}
-	r0=augMatView[0][1];
-	r2=augMatView[2][1];
-	r3=augMatView[3][1];
-	scale=augMatView[1][1];
-	for (int i=0; i < 8; i++)
-	{
-		augMatView[1][i]/=scale;
-	}
+	invMembers[1][0] = members[1][3] * members[2][2] * members[3][0] - members[1][2] * members[2][3] * members[3][0] - members[1][3] * members[2][0] * members[3][2] + members[1][0] * members[2][3] * members[3][2] + members[1][2] * members[2][0] * members[3][3] - members[1][0] * members[2][2] * members[3][3];
+	invMembers[1][1] = members[0][2] * members[2][3] * members[3][0] - members[0][3] * members[2][2] * members[3][0] + members[0][3] * members[2][0] * members[3][2] - members[0][0] * members[2][3] * members[3][2] - members[0][2] * members[2][0] * members[3][3] + members[0][0] * members[2][2] * members[3][3];
+	invMembers[1][2] = members[0][3] * members[1][2] * members[3][0] - members[0][2] * members[1][3] * members[3][0] - members[0][3] * members[1][0] * members[3][2] + members[0][0] * members[1][3] * members[3][2] + members[0][2] * members[1][0] * members[3][3] - members[0][0] * members[1][2] * members[3][3];
+	invMembers[1][3] = members[0][2] * members[1][3] * members[2][0] - members[0][3] * members[1][2] * members[2][0] + members[0][3] * members[1][0] * members[2][2] - members[0][0] * members[1][3] * members[2][2] - members[0][2] * members[1][0] * members[2][3] + members[0][0] * members[1][2] * members[2][3];
 
-	for (int i=0; i < 8; i++)
-	{
-		augMatView[0][i]-=r0*augMatView[1][i];
-		augMatView[2][i]-=r2*augMatView[1][i];
-		augMatView[3][i]-=r3*augMatView[1][i];
-	}
-	if (augMatView[2][2]==0 && augMatView[3][2] == 0)
-		throw std::invalid_argument(UNINVERTIBLE_EXCEPTION_TEXT);
-	else if (augMatView[2][2] == 0)
-	{
-		// augmat[3][2] != 0
-		for (int i=0; i<8; i++)
-		{
-			double temp=augMatView[2][i];
-			augMatView[2][i]=augMatView[3][i];
-			augMatView[3][i]=temp;
-		}
-	}
-	r0=augMatView[0][2];
-	r1=augMatView[1][2];
-	r3=augMatView[3][2];
-	scale=augMatView[2][2];
-	for (int i=0; i < 8; i++)
-	{
-		augMatView[2][i]/=scale;
-	}
-	for (int i=0; i < 8; i++)
-	{
-		augMatView[0][i]-=r0*augMatView[2][i];
-		augMatView[1][i]-=r1*augMatView[2][i];
-		augMatView[3][i]-=r3*augMatView[2][i];
-	}
-	if (augMatView[3][3] == 0)
-		throw std::invalid_argument(UNINVERTIBLE_EXCEPTION_TEXT);
-	r0=augMatView[0][3];
-	r1=augMatView[1][3];
-	r2=augMatView[2][3];
-	scale=augMatView[3][3];
-	for (int i=0; i < 8; i++)
-	{
-		augMatView[3][i]/=scale;
-	}
-	for (int i=0; i < 8; i++)
-	{
-		augMatView[0][i]-=r0*augMatView[3][i];
-		augMatView[1][i]-=r1*augMatView[3][i];
-		augMatView[2][i]-=r2*augMatView[3][i];
-	}
+	invMembers[2][0] = members[1][1] * members[2][3] * members[3][0] - members[1][3] * members[2][1] * members[3][0] + members[1][3] * members[2][0] * members[3][1] - members[1][0] * members[2][3] * members[3][1] - members[1][1] * members[2][0] * members[3][3] + members[1][0] * members[2][1] * members[3][3];
+	invMembers[2][1] = members[0][3] * members[2][1] * members[3][0] - members[0][1] * members[2][3] * members[3][0] - members[0][3] * members[2][0] * members[3][1] + members[0][0] * members[2][3] * members[3][1] + members[0][1] * members[2][0] * members[3][3] - members[0][0] * members[2][1] * members[3][3];
+	invMembers[2][2] = members[0][1] * members[1][3] * members[3][0] - members[0][3] * members[1][1] * members[3][0] + members[0][3] * members[1][0] * members[3][1] - members[0][0] * members[1][3] * members[3][1] - members[0][1] * members[1][0] * members[3][3] + members[0][0] * members[1][1] * members[3][3];
+	invMembers[2][3] = members[0][3] * members[1][1] * members[2][0] - members[0][1] * members[1][3] * members[2][0] - members[0][3] * members[1][0] * members[2][1] + members[0][0] * members[1][3] * members[2][1] + members[0][1] * members[1][0] * members[2][3] - members[0][0] * members[1][1] * members[2][3];
 
-	double result[4][4]{};
-	for (int i=0; i < 4; i++)
-	{
-		for (int j=0; j < 4; j++)
-		{
-			result[i][j]=augMatView[i][j+4];
-		}
-	}
-
-	return Matrix4(result);
+	invMembers[3][0] = members[1][2] * members[2][1] * members[3][0] - members[1][1] * members[2][2] * members[3][0] - members[1][2] * members[2][0] * members[3][1] + members[1][0] * members[2][2] * members[3][1] + members[1][1] * members[2][0] * members[3][2] - members[1][0] * members[2][1] * members[3][2];
+	invMembers[3][1] = members[0][1] * members[2][2] * members[3][0] - members[0][2] * members[2][1] * members[3][0] + members[0][2] * members[2][0] * members[3][1] - members[0][0] * members[2][2] * members[3][1] - members[0][1] * members[2][0] * members[3][2] + members[0][0] * members[2][1] * members[3][2];
+	invMembers[3][2] = members[0][2] * members[1][1] * members[3][0] - members[0][1] * members[1][2] * members[3][0] - members[0][2] * members[1][0] * members[3][1] + members[0][0] * members[1][2] * members[3][1] + members[0][1] * members[1][0] * members[3][2] - members[0][0] * members[1][1] * members[3][2];
+	invMembers[3][3] = members[0][1] * members[1][2] * members[2][0] - members[0][2] * members[1][1] * members[2][0] + members[0][2] * members[1][0] * members[2][1] - members[0][0] * members[1][2] * members[2][1] - members[0][1] * members[1][0] * members[2][2] + members[0][0] * members[1][1] * members[2][2];
+	Matrix4 result{ invMembers };
+	result /= Determinant();
+	return result;
 }
 
 Matrix4 Matrix4::Transpose() const
