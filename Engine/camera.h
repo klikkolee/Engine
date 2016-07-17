@@ -2,9 +2,11 @@
 #define ENGINE_CAMERA_H
 #include "vector3.h"
 #include "matrix4.h"
+#include "component.h"
 
-struct Camera
+class Camera : public Component
 {
+public:
 	Vector3 translation;
 	double xRot = 0;
 	double yRot = 0;
@@ -23,5 +25,6 @@ struct Camera
 		return Matrix4::EulerRotationRadian(0, yRot, zRot)*Vector3(1, 0, 0);
 	}
 	Camera() : translation() {}
+	virtual void Accept(SceneGraphVisitor&) override;
 };
 #endif // !ENGINE_CAMERA_H

@@ -6,6 +6,8 @@
 #include "log.h"
 #include "input.h"
 #include "camera.h"
+#include "game_object.h"
+#include "component.h"
 #include "SDL.h"
 #include "GL\glew.h"
 #include <memory>
@@ -48,7 +50,10 @@ namespace Choreographer
 			Uint32 startFrameTime = SDL_GetTicks();
 			Uint32 endFrameTime = startFrameTime;
 			Uint32 delta = 0;
-			Camera mainCamera;
+			
+			GameObject mainCameraObject{};
+			mainCameraObject.AddComponent<Camera>();
+
 			//endtemp
 			while (isRunning)
 			{
@@ -85,45 +90,45 @@ namespace Choreographer
 				float mvpFloatBuffer[16] = {};
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_UP))
 				{
-					mainCamera.xRot -= 1.0f*delta / 1000;
+					mainCameraObject.transform.Rotate(-1.0f*delta / 1000,0,0);
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_DOWN))
 				{
-					mainCamera.xRot += 1.0f*delta / 1000;
+					mainCameraObject.transform.Rotate(1.0f*delta / 1000,0,0);
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_RIGHT))
 				{
-					mainCamera.yRot += 1.0f*delta / 1000;
+					mainCameraObject.transform.Rotate(0,1.0f*delta / 1000,0);
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_LEFT))
 				{
-					mainCamera.yRot -= 1.0f*delta / 1000;
+					mainCameraObject.transform.Rotate(0, 1.0f*delta / 1000,0);
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_w))
 				{
-					mainCamera.translation += mainCamera.Forward()*5.0f*delta / 1000;
+					mainCameraObject.transform.Translate(mainCameraObject.transform.Forward()*5.0f*delta / 1000);
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_s))
 				{
-					mainCamera.translation -= mainCamera.Forward()*5.0f*delta / 1000;
+					mainCameraObject.transform.Translate(-mainCameraObject.transform.Forward()*5.0f*delta / 1000);
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_a))
 				{
-					mainCamera.translation -= mainCamera.Right()*5.0f*delta / 1000;
+					mainCameraObject.transform.Translate(-mainCameraObject.transform.Right()*5.0f*delta / 1000);
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_d))
 				{
-					mainCamera.translation += mainCamera.Right()*5.0f*delta / 1000;
+					mainCameraObject.transform.Translate(mainCameraObject.transform.Right()*5.0f*delta / 1000);
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_LSHIFT))
 				{
-					mainCamera.translation -= mainCamera.Up()*5.0f*delta / 1000;
+					mainCameraObject.transform.Translate(-mainCameraObject.transform.Up()*5.0f*delta / 1000);
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_SPACE))
 				{
-					mainCamera.translation += mainCamera.Up()*5.0f*delta / 1000;
+					mainCameraObject.transform.Translate(mainCameraObject.transform.Up()*5.0f*delta / 1000);
 				}
-				viewMatrix = Matrix4::EulerRotationRadian(-mainCamera.xRot, -mainCamera.yRot, 0) * Matrix4::TranslationMatrix(-mainCamera.translation);
+				viewMatrix = mainCameraObject.transform.LocalToWorldMatrix();//Matrix4::EulerRotationRadian(-mainCamera.xRot, -mainCamera.yRot, 0) * Matrix4::TranslationMatrix(-mainCamera.translation);
 				glUseProgram(shaderProgram);
 				mvp = ProjectionMatrix*viewMatrix*modelMatrix;
 				mvp.AsFloatBuffer(mvpFloatBuffer);

@@ -89,7 +89,7 @@ void Matrix4::AsFloatBuffer(float(&output)[16])
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			output[i * 4 + j] = members[i][j];
+			output[i * 4 + j] = float(members[i][j]);
 		}
 	}
 }
