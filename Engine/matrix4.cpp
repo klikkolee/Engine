@@ -8,14 +8,14 @@
 #include <span.h>
 const std::string Matrix4::UNINVERTIBLE_EXCEPTION_TEXT="matrix is not invertible";
 Matrix4::Matrix4() : members{ {0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0} } {}
-Matrix4::Matrix4(const Quaternion& rotation)
+Matrix4::Matrix4(Quaternion rotation)
 {
 	members[0][0]=1-2*rotation.j*rotation.j-2*rotation.k*rotation.k;
 	members[0][1]=2*(rotation.i*rotation.j-rotation.k*rotation.w);
 	members[0][2]=2*(rotation.i*rotation.k+rotation.j*rotation.w);
 	members[0][3]=0;
 	members[1][0]=2*(rotation.i*rotation.j+rotation.k*rotation.w);
-	members[1][1]=1-2*rotation.j*rotation.j-2*rotation.k*rotation.k;
+	members[1][1]=1-2*rotation.i*rotation.i-2*rotation.k*rotation.k;
 	members[1][2]=2*(rotation.j*rotation.k-rotation.i*rotation.w);
 	members[1][3]=0;
 	members[2][0]=2*(rotation.i*rotation.k-rotation.j*rotation.w);

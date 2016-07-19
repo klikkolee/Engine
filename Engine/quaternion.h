@@ -8,6 +8,7 @@ class Quaternion final
 {
 	friend class Matrix4;
 	friend class Vector3;
+	friend class Transform;
 	friend const Quaternion operator*(const Vector3& lhs, const Quaternion& rhs);
 	double i,j,k,w;
 	inline Quaternion(double i,double j,double k,double w) : i(i),j(j),k(k),w(w) {}
@@ -20,6 +21,14 @@ class Quaternion final
 		i*=rhs;
 		j*=rhs;
 		k*=rhs;
+		return *this;
+	}
+	inline Quaternion& operator/=(double rhs)
+	{
+		w /= rhs;
+		i /= rhs;
+		j /= rhs;
+		k /= rhs;
 		return *this;
 	}
 	//order: zyx
@@ -36,10 +45,10 @@ public:
 
 	inline Quaternion& operator*=(const Quaternion& rhs)
 	{
-		double i=this->w*rhs.i-this->i*rhs.w-this->j*rhs.k-this->k*rhs.j;
-		double j=this->w*rhs.j-this->i*rhs.k-this->j*rhs.w-this->k*rhs.i;
-		double k=this->w*rhs.k-this->i*rhs.j-this->j*rhs.i-this->k*rhs.w;
-		double w=this->w*rhs.w-this->i*rhs.i-this->j*rhs.j-this->k*rhs.k;
+		double i = this->w*rhs.i + this->i*rhs.w + this->j*rhs.k - this->k*rhs.j;
+		double j = this->w*rhs.j - this->i*rhs.k + this->j*rhs.w + this->k*rhs.i;
+		double k = this->w*rhs.k + this->i*rhs.j - this->j*rhs.i + this->k*rhs.w;
+		double w = this->w*rhs.w - this->i*rhs.i - this->j*rhs.j - this->k*rhs.k;
 		this->i=i;
 		this->j=j;
 		this->k=k;

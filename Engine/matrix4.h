@@ -19,7 +19,7 @@ public:
 		xyz,xzy,yxz,yzx,zxy,zyx
 	};
 	Matrix4();
-	Matrix4(const Quaternion& rotation);
+	Matrix4(Quaternion rotation);
 	explicit Matrix4(const double(&members)[4][4]) : members{}
 	{
 		for (int i = 0; i < 4; i++)

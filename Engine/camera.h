@@ -12,6 +12,8 @@ public:
 	double yRot = 0;
 	double zRot = 0;
 
+	inline Camera(GameObject* ptr) : Component(ptr) {}
+
 	Vector3 Forward()
 	{
 		return Matrix4::EulerRotationRadian(0, yRot, 0)*Matrix4::EulerRotationRadian(xRot, 0, 0)*Vector3(0, 0, 1);

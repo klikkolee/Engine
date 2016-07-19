@@ -53,7 +53,6 @@ namespace Choreographer
 			
 			GameObject mainCameraObject{};
 			mainCameraObject.AddComponent<Camera>();
-
 			//endtemp
 			while (isRunning)
 			{
@@ -90,19 +89,19 @@ namespace Choreographer
 				float mvpFloatBuffer[16] = {};
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_UP))
 				{
-					mainCameraObject.transform.Rotate(-1.0f*delta / 1000,0,0);
+					mainCameraObject.transform.Rotate(Quaternion(mainCameraObject.transform.Right(), -10.0f*delta / 1000));
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_DOWN))
 				{
-					mainCameraObject.transform.Rotate(1.0f*delta / 1000,0,0);
+					mainCameraObject.transform.Rotate(Quaternion(mainCameraObject.transform.Right(),10.0f*delta / 1000));
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_RIGHT))
 				{
-					mainCameraObject.transform.Rotate(0,1.0f*delta / 1000,0);
+					mainCameraObject.transform.Rotate(Quaternion(mainCameraObject.transform.Up(), 10.0f*delta / 1000));
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_LEFT))
 				{
-					mainCameraObject.transform.Rotate(0, 1.0f*delta / 1000,0);
+					mainCameraObject.transform.Rotate(Quaternion(mainCameraObject.transform.Up(), -10.0f*delta / 1000));
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_w))
 				{
