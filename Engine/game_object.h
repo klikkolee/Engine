@@ -3,21 +3,17 @@
 
 #include "transform.h"
 #include "component.h"
+#include "graph_node.h"
 #include <vector>
 #include <memory>
 
 class SceneGraphVisitor;
-class GameObject
+class GameObject final : public GraphNode
 {
 	std::vector<std::unique_ptr<Component>> components;
 public:
 	Transform transform;
-	//applies Visitor to components
-	void Accept(SceneGraphVisitor&);
-	//applies Visitor to components and components of parents
-	void Ascend(SceneGraphVisitor&);
-	//applies Visitor to components and components of children
-	void Traverse(SceneGraphVisitor&);
+	
 
 	template<class _Component, class = std::enable_if_t<std::is_base_of<Component,_Component>::value>>
 	void AddComponent();

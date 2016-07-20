@@ -6,9 +6,12 @@
 #include "matrix4.h"
 #include <vector>
 #include <memory>
+class GameObject;
 class Transform final : public std::enable_shared_from_this<Transform>
 {
+	friend class GameObject;
 	Transform* parent;
+	GameObject* parentObject;
 	std::vector<std::shared_ptr<Transform>> children;
 	Quaternion rotation;
 	Vector3 position;

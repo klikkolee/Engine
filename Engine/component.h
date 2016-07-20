@@ -1,19 +1,19 @@
 #ifndef ENGINE_COMPONENT_H
 #define ENGINE_COMPONENT_H
+#include "graph_node.h"
 
 class SceneGraphVisitor;
 class Camera;
 class GameObject;
-class Component
+class Component : public GraphNode
 {
 	friend class GameObject;
 	GameObject* parentObject;
 protected:
-	inline Component(GameObject* parent) { parentObject = parent; }
+	Component(GameObject* parent);
 	Component() = default;
 	Component(const Component&) = default;
 public:
-	virtual void Accept(SceneGraphVisitor&) {};
 	virtual Camera* AsCamera() { return nullptr; }
 };
 
