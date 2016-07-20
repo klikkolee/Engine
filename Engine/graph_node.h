@@ -2,13 +2,15 @@
 #define ENGINE_GRAPH_NODE_H
 #include <memory>
 class SceneGraphVisitor;
-class GameObject;
+class Transform;
 //Convienience class to reduce overloads of SceneGraphVisitor's Traversal functions
-class GraphNode
+class GraphNode : public std::enable_shared_from_this<GraphNode>
 {
 protected:
-	std::weak_ptr<GameObject> parent;
+	std::weak_ptr<Transform> parent;
 public:
+	void SetParent(Transform*);
+	Transform* GetParent();
 	//applies Visitor to components
 	virtual void Accept(SceneGraphVisitor&);
 	//applies Visitor to components and components of parents

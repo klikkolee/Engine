@@ -3,18 +3,15 @@
 
 #include "transform.h"
 #include "component.h"
-#include "graph_node.h"
+#include "transform.h"
 #include <vector>
 #include <memory>
 
 class SceneGraphVisitor;
-class GameObject final : public GraphNode
+class GameObject final : public Transform
 {
 	std::vector<std::unique_ptr<Component>> components;
 public:
-	Transform transform;
-	
-
 	template<class _Component, class = std::enable_if_t<std::is_base_of<Component,_Component>::value>>
 	void AddComponent();
 };

@@ -89,45 +89,45 @@ namespace Choreographer
 				float mvpFloatBuffer[16] = {};
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_UP))
 				{
-					mainCameraObject.transform.Rotate(Quaternion(mainCameraObject.transform.Right(), -10.0f*delta / 1000));
+					mainCameraObject.Rotate(Quaternion(mainCameraObject.Right(), -10.0f*delta / 1000));
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_DOWN))
 				{
-					mainCameraObject.transform.Rotate(Quaternion(mainCameraObject.transform.Right(),10.0f*delta / 1000));
+					mainCameraObject.Rotate(Quaternion(mainCameraObject.Right(),10.0f*delta / 1000));
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_RIGHT))
 				{
-					mainCameraObject.transform.Rotate(Quaternion(mainCameraObject.transform.Up(), 10.0f*delta / 1000));
+					mainCameraObject.Rotate(Quaternion({ 0,1,0 }, 10.0f*delta / 1000));
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_LEFT))
 				{
-					mainCameraObject.transform.Rotate(Quaternion(mainCameraObject.transform.Up(), -10.0f*delta / 1000));
+					mainCameraObject.Rotate(Quaternion({ 0,1,0 }, -10.0f*delta / 1000));
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_w))
 				{
-					mainCameraObject.transform.Translate(mainCameraObject.transform.Forward()*5.0f*delta / 1000);
+					mainCameraObject.Translate(mainCameraObject.Forward()*5.0f*delta / 1000);
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_s))
 				{
-					mainCameraObject.transform.Translate(-mainCameraObject.transform.Forward()*5.0f*delta / 1000);
+					mainCameraObject.Translate(-mainCameraObject.Forward()*5.0f*delta / 1000);
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_a))
 				{
-					mainCameraObject.transform.Translate(-mainCameraObject.transform.Right()*5.0f*delta / 1000);
+					mainCameraObject.Translate(-mainCameraObject.Right()*5.0f*delta / 1000);
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_d))
 				{
-					mainCameraObject.transform.Translate(mainCameraObject.transform.Right()*5.0f*delta / 1000);
+					mainCameraObject.Translate(mainCameraObject.Right()*5.0f*delta / 1000);
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_LSHIFT))
 				{
-					mainCameraObject.transform.Translate(-mainCameraObject.transform.Up()*5.0f*delta / 1000);
+					mainCameraObject.Translate(-mainCameraObject.Up()*5.0f*delta / 1000);
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_SPACE))
 				{
-					mainCameraObject.transform.Translate(mainCameraObject.transform.Up()*5.0f*delta / 1000);
+					mainCameraObject.Translate(mainCameraObject.Up()*5.0f*delta / 1000);
 				}
-				viewMatrix = mainCameraObject.transform.LocalToWorldMatrix();//Matrix4::EulerRotationRadian(-mainCamera.xRot, -mainCamera.yRot, 0) * Matrix4::TranslationMatrix(-mainCamera.translation);
+				viewMatrix = mainCameraObject.LocalToWorldMatrix();//Matrix4::EulerRotationRadian(-mainCamera.xRot, -mainCamera.yRot, 0) * Matrix4::TranslationMatrix(-mainCamera.translation);
 				glUseProgram(shaderProgram);
 				mvp = ProjectionMatrix*viewMatrix*modelMatrix;
 				mvp.AsFloatBuffer(mvpFloatBuffer);
