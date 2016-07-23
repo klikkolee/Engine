@@ -105,7 +105,11 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cube_shader.fp" />
+    <None Include="green_shader.fp" />
     <None Include="packages.config" />
+    <None Include="red_shader.fp" />
+    <None Include="red_shader.vp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
