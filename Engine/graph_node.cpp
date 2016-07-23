@@ -7,15 +7,18 @@ void GraphNode::SetParent(Transform* parent)
 	if (parent != nullptr)
 	{
 		parent->AddChild(*this);
+		auto parentLock = this->parent.lock();
+		if (parentLock.get() != nullptr)
+			parentLock->RemoveChild(*this);
 		this->parent = std::static_pointer_cast<Transform>(parent->shared_from_this());
 	}
 	else
 		this->parent.reset();
 }
 
-Transform * GraphNode::GetParent()
+std::weak_ptr<Transform> GraphNode::GetParent()
 {
-	return parent.lock().get();
+	return parent;
 }
 
 void GraphNode::Accept(SceneGraphVisitor& visitor)

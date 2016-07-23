@@ -3,15 +3,14 @@
 #include <string>
 #include <fstream>
 #include <assert.h>
-inline void Log(std::string message)
+#include <stdarg.h>
+inline void Log(std::string message,...)
 {
+	va_list args;
+	va_start(args,message);
 	auto logfile = fopen("Log.txt", "a");
 	assert(logfile != nullptr);
-	fputs(message.c_str(), logfile);
+	vfprintf(logfile,message.c_str(), args);
 	fclose(logfile);
-}
-inline auto LogFile()
-{
-	return fopen("Log.txt", "a");
 }
 #endif //ENGINE_LOG_H

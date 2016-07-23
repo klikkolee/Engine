@@ -8,6 +8,8 @@
 #include "camera.h"
 #include "game_object.h"
 #include "component.h"
+#include "scene_graph_visitor.h"
+#include "scene.h"
 #include "SDL.h"
 #include "GL\glew.h"
 #include <memory>
@@ -30,8 +32,8 @@ namespace Choreographer
 		void MainLoop()
 		{
 			//temp
-			Mesh mesh = Mesh::TestTriangle();
-			Mesh cube = Mesh::TestCube();
+			auto mesh = std::make_shared<Mesh>(Mesh::TestTriangle());
+			auto cube = std::make_shared<Mesh>(Mesh::TestCube());
 			GLuint shaderProgram = GetShaderProgram("red_shader.vp", "red_shader.fp");
 			GLuint greenShaderProgram = GetShaderProgram("red_shader.vp", "green_shader.fp");
 			GLuint cubeShaderProgram = GetShaderProgram("red_shader.vp", "cube_shader.fp");
@@ -53,6 +55,12 @@ namespace Choreographer
 			
 			GameObject mainCameraObject{};
 			mainCameraObject.AddComponent<Camera>();
+			
+			Scene scene;
+
+			scene.AddObjectToTreeBase(*mesh);
+			scene.AddObjectToTreeBase(*cube);
+
 			//endtemp
 			while (isRunning)
 			{
@@ -132,22 +140,22 @@ namespace Choreographer
 				mvp = ProjectionMatrix*viewMatrix*modelMatrix;
 				mvp.AsFloatBuffer(mvpFloatBuffer);
 				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
-				mesh.Draw();
+				mesh->Draw();
 				glUseProgram(greenShaderProgram);
 				mvp = ProjectionMatrix*viewMatrix*modelMatrix*Matrix4::EulerRotationDegree(0, 180, 0);
 				mvp.AsFloatBuffer(mvpFloatBuffer);
 				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
-				mesh.Draw();
+				mesh->Draw();
 
 				glUseProgram(cubeShaderProgram);
 				mvp = ProjectionMatrix*viewMatrix*cubeModelMatrix;
 				mvp.AsFloatBuffer(mvpFloatBuffer);
 				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
-				cube.Draw();
+				cube->Draw();
 				glUseProgram(greenShaderProgram);
 				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
 				glCullFace(GL_FRONT);
-				cube.Draw();
+				cube->Draw();
 				glCullFace(GL_BACK);
 
 				mainWindow->SwapBuffers();
@@ -187,7 +195,7 @@ namespace Choreographer
 			GLenum glewError = glewInit();
 			if (glewError != GLEW_OK)
 			{
-				fprintf(LogFile(), "Error: '%s'\n", glewGetErrorString(glewError));
+				Log("Error: '%s'\n", glewGetErrorString(glewError));
 				assert(0);
 			}
 
@@ -207,7 +215,7 @@ namespace Choreographer
 				vertexShaderStream.close();
 			}
 			else {
-				fprintf(LogFile(), "unable to open shader from file %s", vertexShaderFile.c_str());
+				Log("unable to open shader from file %s", vertexShaderFile.c_str());
 				assert(0);
 				return GL_FALSE;
 			}
@@ -221,7 +229,7 @@ namespace Choreographer
 				fragmentShaderStream.close();
 			}
 			else {
-				fprintf(LogFile(), "unable to open shader from file %s", fragmentShaderFile.c_str());
+				Log("unable to open shader from file %s", fragmentShaderFile.c_str());
 				assert(0);
 				return GL_FALSE;
 			}
