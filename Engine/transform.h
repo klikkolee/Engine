@@ -16,9 +16,12 @@ class Transform : public GraphNode
 protected:
 	std::vector<std::shared_ptr<GraphNode>> children;
 	void AddChild(GraphNode&);
+	void RemoveChild(GraphNode&);
 public:
 	inline Transform() : children(),rotation(),position(),scale(1,1,1) {}
 	inline Transform(Quaternion rotation,Vector3 position,Vector3 scale) : children(),rotation(rotation),position(position),scale(scale) {}
+
+	virtual void Descend(SceneGraphVisitor&) override;
 
 	Matrix4 WorldToLocalMatrix();
 	Matrix4 LocalToWorldMatrix();

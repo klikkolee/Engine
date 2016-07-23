@@ -84,6 +84,7 @@
     <ClCompile Include="matrix4.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="quaternion.cpp" />
+    <ClCompile Include="render_visitor.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scene_graph_visitor.cpp" />
     <ClCompile Include="SDL_fix.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="matrix4.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="quaternion.h" />
+    <ClInclude Include="render_visitor.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_graph_visitor.h" />
     <ClInclude Include="transform.h" />

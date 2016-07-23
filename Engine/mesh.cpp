@@ -1,5 +1,6 @@
 #include "mesh.h"
 #include "log.h"
+#include "scene_graph_visitor.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -43,7 +44,7 @@ bool Mesh::LoadFromFile(std::string file)
 	const aiScene* scene = importer.ReadFile(file.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 	if (scene == nullptr)
 	{
-		fprintf(LogFile(), "Error: unable to load mesh at file '%s'\n", file.c_str());
+		Log("Error: unable to load mesh at file '%s'\n", file.c_str());
 		return false;
 	}
 	const aiMesh* model = scene->mMeshes[0];
@@ -82,6 +83,11 @@ void Mesh::Draw() const
 {
 	glBindVertexArray(data->vertexArrayObject);
 	glDrawElements(GL_TRIANGLES, data->numIndices, GL_UNSIGNED_INT, nullptr);
+}
+
+void Mesh::Accept(SceneGraphVisitor & visitor)
+{
+	visitor.Apply(*this);
 }
 
 Mesh Mesh::TestTriangle()

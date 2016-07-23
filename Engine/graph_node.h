@@ -10,7 +10,7 @@ protected:
 	std::weak_ptr<Transform> parent;
 public:
 	void SetParent(Transform*);
-	Transform* GetParent();
+	std::weak_ptr<Transform> GetParent();
 	//applies Visitor to components
 	virtual void Accept(SceneGraphVisitor&);
 	//applies Visitor to components and components of parents

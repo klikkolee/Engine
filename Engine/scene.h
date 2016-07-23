@@ -2,15 +2,17 @@
 #define ENGINE_SCENE_H
 
 #include "game_object.h"
+#include <memory>
 #include<vector>
 
 class SceneGraphVisitor;
 class Scene
 {
-	std::vector<GameObject> objects;
-	GameObject rootObject;
+	std::shared_ptr<GameObject> rootObject;
 public:
-	void accept(SceneGraphVisitor&);
+	void TraverseWholeHierarchy(SceneGraphVisitor&);
+	void AddObjectToTreeBase(GraphNode& object);
+	inline Scene() : rootObject(std::make_shared<GameObject>()) {}
 };
 
 #endif // ENGINE_SCENE_H

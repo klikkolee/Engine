@@ -69,6 +69,9 @@
     <ClCompile Include="graph_node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="render_visitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="choreographer.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="graph_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="render_visitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

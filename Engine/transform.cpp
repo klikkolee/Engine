@@ -12,6 +12,24 @@ void Transform::AddChild(GraphNode & child)
 {
 	children.push_back(child.shared_from_this());
 }
+void Transform::RemoveChild(GraphNode & child)
+{
+	for (auto childIterator = children.begin(); childIterator != children.end();++childIterator)
+	{
+		if (childIterator->get() == &child)
+		{
+			children.erase(childIterator);
+			break;
+		}
+	}
+}
+void Transform::Descend(SceneGraphVisitor & visitor)
+{
+	for (auto& childPtr : children)
+	{
+		childPtr->Accept(visitor);
+	}
+}
 Matrix4 Transform::WorldToLocalMatrix()
 {
 	auto parentPtr = parent.lock();
