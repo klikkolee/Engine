@@ -49,7 +49,7 @@ public:
 	double Determinant() const;
 	Matrix4 Inverse() const;
 	Matrix4 Transpose() const;
-	void AsFloatBuffer(float(&output)[16]);
+	void AsFloatBuffer(float(&output)[16]) const;
 
 	std::string DebugString() const;
 

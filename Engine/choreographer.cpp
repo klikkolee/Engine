@@ -10,6 +10,8 @@
 #include "component.h"
 #include "scene_graph_visitor.h"
 #include "scene.h"
+#include "shader.h"
+#include "shader_program.h"
 #include "SDL.h"
 #include "GL\glew.h"
 #include <memory>
@@ -34,10 +36,23 @@ namespace Choreographer
 			//temp
 			auto mesh = std::make_shared<Mesh>(Mesh::TestTriangle());
 			auto cube = std::make_shared<Mesh>(Mesh::TestCube());
-			GLuint shaderProgram = GetShaderProgram("red_shader.vp", "red_shader.fp");
+			ShaderProgram redShader{};
+			ShaderProgram greenShader{};
+			ShaderProgram cubeShader{};
+			Shader redFragmentShader{ Shader::FRAGMENT_SHADER,"red_shader.fp" };
+			Shader cubeFragmentShader{ Shader::FRAGMENT_SHADER,"cube_shader.fp" };
+			Shader greenFragmentShader{ Shader::FRAGMENT_SHADER,"green_shader.fp" };
+			Shader vertexShader{ Shader::VERTEX_SHADER,"red_shader.vp" };
+			redShader.AttachShader(redFragmentShader);
+			redShader.AttachShader(vertexShader);
+			greenShader.AttachShader(greenFragmentShader);
+			greenShader.AttachShader(vertexShader);
+			cubeShader.AttachShader(cubeFragmentShader);
+			cubeShader.AttachShader(vertexShader);
+			/*GLuint shaderProgram = GetShaderProgram("red_shader.vp", "red_shader.fp");
 			GLuint greenShaderProgram = GetShaderProgram("red_shader.vp", "green_shader.fp");
 			GLuint cubeShaderProgram = GetShaderProgram("red_shader.vp", "cube_shader.fp");
-			glUseProgram(shaderProgram);
+			glUseProgram(shaderProgram);*/
 			glClearColor(0, 0, 0, 1);
 
 
@@ -47,7 +62,7 @@ namespace Choreographer
 			Matrix4 ProjectionMatrix = Matrix4::ProjectionMatrix(90, .1, 1000, 800.0f / 600.0f);
 			Matrix4 mvp;
 
-			GLuint mvpUniform = glGetUniformLocation(shaderProgram, "MVP");
+			//GLuint mvpUniform = glGetUniformLocation(shaderProgram, "MVP");
 
 			Uint32 startFrameTime = SDL_GetTicks();
 			Uint32 endFrameTime = startFrameTime;
@@ -97,19 +112,19 @@ namespace Choreographer
 				float mvpFloatBuffer[16] = {};
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_UP))
 				{
-					mainCameraObject.Rotate(Quaternion(mainCameraObject.Right(), -10.0f*delta / 1000));
+					mainCameraObject.Rotate(Quaternion(mainCameraObject.Right(), -100.0f*delta / 1000));
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_DOWN))
 				{
-					mainCameraObject.Rotate(Quaternion(mainCameraObject.Right(),10.0f*delta / 1000));
+					mainCameraObject.Rotate(Quaternion(mainCameraObject.Right(),100.0f*delta / 1000));
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_RIGHT))
 				{
-					mainCameraObject.Rotate(Quaternion({ 0,1,0 }, 10.0f*delta / 1000));
+					mainCameraObject.Rotate(Quaternion({ 0,1,0 }, 100.0f*delta / 1000));
 				}
 				else if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_LEFT))
 				{
-					mainCameraObject.Rotate(Quaternion({ 0,1,0 }, -10.0f*delta / 1000));
+					mainCameraObject.Rotate(Quaternion({ 0,1,0 }, -100.0f*delta / 1000));
 				}
 				if (Input::IsKeyPressed(mainWindow->GetID(), SDLK_w))
 				{
@@ -136,24 +151,32 @@ namespace Choreographer
 					mainCameraObject.Translate(mainCameraObject.Up()*5.0f*delta / 1000);
 				}
 				viewMatrix = mainCameraObject.LocalToWorldMatrix();//Matrix4::EulerRotationRadian(-mainCamera.xRot, -mainCamera.yRot, 0) * Matrix4::TranslationMatrix(-mainCamera.translation);
-				glUseProgram(shaderProgram);
+				redShader.BindAsActiveProgram();
+				//glUseProgram(shaderProgram);
 				mvp = ProjectionMatrix*viewMatrix*modelMatrix;
-				mvp.AsFloatBuffer(mvpFloatBuffer);
-				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
+				/*mvp.AsFloatBuffer(mvpFloatBuffer);
+				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);*/
+				redShader.SetUniform("MVP", mvp);
 				mesh->Draw();
-				glUseProgram(greenShaderProgram);
+				//glUseProgram(greenShaderProgram);
+				greenShader.BindAsActiveProgram();
 				mvp = ProjectionMatrix*viewMatrix*modelMatrix*Matrix4::EulerRotationDegree(0, 180, 0);
-				mvp.AsFloatBuffer(mvpFloatBuffer);
-				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
+				/*mvp.AsFloatBuffer(mvpFloatBuffer);
+				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);*/
+				greenShader.SetUniform("MVP", mvp);
 				mesh->Draw();
 
-				glUseProgram(cubeShaderProgram);
+				//glUseProgram(cubeShaderProgram);
+				cubeShader.BindAsActiveProgram();
 				mvp = ProjectionMatrix*viewMatrix*cubeModelMatrix;
-				mvp.AsFloatBuffer(mvpFloatBuffer);
-				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
+				/*mvp.AsFloatBuffer(mvpFloatBuffer);
+				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);*/
+				cubeShader.SetUniform("MVP", mvp);
 				cube->Draw();
-				glUseProgram(greenShaderProgram);
-				glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
+				//glUseProgram(greenShaderProgram);
+				greenShader.BindAsActiveProgram();
+				//glUniformMatrix4fv(mvpUniform, 1, GL_TRUE, mvpFloatBuffer);
+				greenShader.SetUniform("MVP", mvp);
 				glCullFace(GL_FRONT);
 				cube->Draw();
 				glCullFace(GL_BACK);
@@ -268,7 +291,7 @@ namespace Choreographer
 			glGetProgramiv(programID, GL_LINK_STATUS, &result);
 			glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &infoLogLength);
 			std::vector<char> perrorMessage(infoLogLength + 1);
-			glGetShaderInfoLog(vertexShaderID, infoLogLength, nullptr, &perrorMessage[0]);
+			glGetProgramInfoLog(programID, infoLogLength, nullptr, &perrorMessage[0]);
 			assert(result);
 
 			glDetachShader(programID, vertexShaderID);

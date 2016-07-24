@@ -45,6 +45,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -70,14 +71,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="choreographer.cpp" />
+    <ClCompile Include="component.cpp" />
+    <ClCompile Include="game_object.cpp" />
+    <ClCompile Include="graph_node.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4.cpp" />
+    <ClCompile Include="mesh.cpp" />
     <ClCompile Include="quaternion.cpp" />
     <ClCompile Include="render_visitor.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scene_graph_visitor.cpp" />
     <ClCompile Include="SDL_fix.cpp" />
+    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shader_program.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="vector2.cpp" />
     <ClCompile Include="vector3.cpp" />
@@ -98,6 +107,8 @@
     <ClInclude Include="render_visitor.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_graph_visitor.h" />
+    <ClInclude Include="shader.h" />
+    <ClInclude Include="shader_program.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="vector2.h" />
     <ClInclude Include="vector3.h" />

@@ -83,7 +83,7 @@ Matrix4 Matrix4::Transpose() const
 	return result;
 }
 
-void Matrix4::AsFloatBuffer(float(&output)[16])
+void Matrix4::AsFloatBuffer(float(&output)[16]) const
 {
 	for (int i = 0; i < 4; i++)
 	{
